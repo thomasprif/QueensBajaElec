@@ -1,0 +1,550 @@
+ARM GAS  /tmp/ccwfu5rq.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"can_al.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Libs/can_al/can_al.c"
+  18              		.section	.text.HAL_CAN_RxFifo0MsgPendingCallback,"ax",%progbits
+  19              		.align	1
+  20              		.global	HAL_CAN_RxFifo0MsgPendingCallback
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	HAL_CAN_RxFifo0MsgPendingCallback:
+  26              	.LVL0:
+  27              	.LFB65:
+   1:Libs/can_al/can_al.c **** #include "can_al.h"
+   2:Libs/can_al/can_al.c **** 
+   3:Libs/can_al/can_al.c **** int CAN_ISR_FLAG = 0;
+   4:Libs/can_al/can_al.c **** CAN_ConnectionTypeDef* Lib_CAN_Connection_ptr;
+   5:Libs/can_al/can_al.c **** 
+   6:Libs/can_al/can_al.c **** /**
+   7:Libs/can_al/can_al.c ****  * @brief  Defines the HAL Callback Function. 
+   8:Libs/can_al/can_al.c ****  * 
+   9:Libs/can_al/can_al.c ****  * In this case just sets the CAN_ISR_FLAG to 1
+  10:Libs/can_al/can_al.c ****  * 
+  11:Libs/can_al/can_al.c ****  * @param  canh The global CAN handle defined in can.h.
+  12:Libs/can_al/can_al.c ****  */
+  13:Libs/can_al/can_al.c **** void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* canh){
+  28              		.loc 1 13 64 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 13 64 is_stmt 0 view .LVU1
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  14:Libs/can_al/can_al.c ****     HAL_CAN_GetRxMessage(canh, CAN_RX_FIFO0, &(Lib_CAN_Connection_ptr->RxHeader), Lib_CAN_Connectio
+  38              		.loc 1 14 5 is_stmt 1 view .LVU2
+  39              		.loc 1 14 70 is_stmt 0 view .LVU3
+  40 0002 064B     		ldr	r3, .L3
+  41 0004 1A68     		ldr	r2, [r3]
+  42              		.loc 1 14 5 view .LVU4
+  43 0006 02F15803 		add	r3, r2, #88
+  44 000a 3C32     		adds	r2, r2, #60
+ARM GAS  /tmp/ccwfu5rq.s 			page 2
+
+
+  45 000c 0021     		movs	r1, #0
+  46 000e FFF7FEFF 		bl	HAL_CAN_GetRxMessage
+  47              	.LVL1:
+  15:Libs/can_al/can_al.c ****     CAN_ISR_FLAG = 1;
+  48              		.loc 1 15 5 is_stmt 1 view .LVU5
+  49              		.loc 1 15 18 is_stmt 0 view .LVU6
+  50 0012 034B     		ldr	r3, .L3+4
+  51 0014 0122     		movs	r2, #1
+  52 0016 1A60     		str	r2, [r3]
+  16:Libs/can_al/can_al.c **** }
+  53              		.loc 1 16 1 view .LVU7
+  54 0018 08BD     		pop	{r3, pc}
+  55              	.L4:
+  56 001a 00BF     		.align	2
+  57              	.L3:
+  58 001c 00000000 		.word	Lib_CAN_Connection_ptr
+  59 0020 00000000 		.word	CAN_ISR_FLAG
+  60              		.cfi_endproc
+  61              	.LFE65:
+  63              		.section	.text.CAN_Start,"ax",%progbits
+  64              		.align	1
+  65              		.global	CAN_Start
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	CAN_Start:
+  71              	.LVL2:
+  72              	.LFB66:
+  17:Libs/can_al/can_al.c **** 
+  18:Libs/can_al/can_al.c **** 
+  19:Libs/can_al/can_al.c **** 
+  20:Libs/can_al/can_al.c **** /**
+  21:Libs/can_al/can_al.c ****  * @brief Starts the CAN bus
+  22:Libs/can_al/can_al.c ****  *  
+  23:Libs/can_al/can_al.c ****  * Set's the node's if
+  24:Libs/can_al/can_al.c ****  * Defines important TX headers
+  25:Libs/can_al/can_al.c ****  * Start the FIFO0 message Callback
+  26:Libs/can_al/can_al.c ****  * Saves the CAN_ConnectionTypeDef's address for future use in the callback function
+  27:Libs/can_al/can_al.c ****  * 
+  28:Libs/can_al/can_al.c ****  * @param CAN_Connection Pointer the CAN_ConnectionTypeDef to start
+  29:Libs/can_al/can_al.c ****  * @param id Node's id
+  30:Libs/can_al/can_al.c ****  */
+  31:Libs/can_al/can_al.c **** void CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id){
+  73              		.loc 1 31 67 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		.loc 1 31 67 is_stmt 0 view .LVU9
+  78 0000 70B5     		push	{r4, r5, r6, lr}
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 16
+  81              		.cfi_offset 4, -16
+  82              		.cfi_offset 5, -12
+  83              		.cfi_offset 6, -8
+  84              		.cfi_offset 14, -4
+  85 0002 0446     		mov	r4, r0
+  32:Libs/can_al/can_al.c **** 
+ARM GAS  /tmp/ccwfu5rq.s 			page 3
+
+
+  33:Libs/can_al/can_al.c ****     CAN_Connection->TxDataHeader.IDE = CAN_ID_STD;
+  86              		.loc 1 33 5 is_stmt 1 view .LVU10
+  87              		.loc 1 33 38 is_stmt 0 view .LVU11
+  88 0004 0023     		movs	r3, #0
+  89 0006 8360     		str	r3, [r0, #8]
+  34:Libs/can_al/can_al.c ****     CAN_Connection->TxDataHeader.StdId = id;
+  90              		.loc 1 34 5 is_stmt 1 view .LVU12
+  91              		.loc 1 34 40 is_stmt 0 view .LVU13
+  92 0008 0160     		str	r1, [r0]
+  35:Libs/can_al/can_al.c ****     CAN_Connection->TxDataHeader.RTR = CAN_RTR_DATA;
+  93              		.loc 1 35 5 is_stmt 1 view .LVU14
+  94              		.loc 1 35 38 is_stmt 0 view .LVU15
+  95 000a C360     		str	r3, [r0, #12]
+  36:Libs/can_al/can_al.c ****   
+  37:Libs/can_al/can_al.c ****     CAN_Connection->TxRequestHeader.IDE = CAN_ID_STD;
+  96              		.loc 1 37 5 is_stmt 1 view .LVU16
+  97              		.loc 1 37 41 is_stmt 0 view .LVU17
+  98 000c 0362     		str	r3, [r0, #32]
+  38:Libs/can_al/can_al.c ****     CAN_Connection->TxRequestHeader.StdId = id;
+  99              		.loc 1 38 5 is_stmt 1 view .LVU18
+ 100              		.loc 1 38 43 is_stmt 0 view .LVU19
+ 101 000e 8161     		str	r1, [r0, #24]
+  39:Libs/can_al/can_al.c ****     CAN_Connection->TxRequestHeader.RTR = CAN_RTR_REMOTE;
+ 102              		.loc 1 39 5 is_stmt 1 view .LVU20
+ 103              		.loc 1 39 41 is_stmt 0 view .LVU21
+ 104 0010 0226     		movs	r6, #2
+ 105 0012 4662     		str	r6, [r0, #36]
+  40:Libs/can_al/can_al.c ****   
+  41:Libs/can_al/can_al.c ****     HAL_CAN_Start(&hcan);
+ 106              		.loc 1 41 5 is_stmt 1 view .LVU22
+ 107 0014 054D     		ldr	r5, .L7
+ 108 0016 2846     		mov	r0, r5
+ 109              	.LVL3:
+ 110              		.loc 1 41 5 is_stmt 0 view .LVU23
+ 111 0018 FFF7FEFF 		bl	HAL_CAN_Start
+ 112              	.LVL4:
+  42:Libs/can_al/can_al.c ****   
+  43:Libs/can_al/can_al.c ****     Lib_CAN_Connection_ptr = CAN_Connection;
+ 113              		.loc 1 43 5 is_stmt 1 view .LVU24
+ 114              		.loc 1 43 28 is_stmt 0 view .LVU25
+ 115 001c 044B     		ldr	r3, .L7+4
+ 116 001e 1C60     		str	r4, [r3]
+  44:Libs/can_al/can_al.c ****     HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+ 117              		.loc 1 44 5 is_stmt 1 view .LVU26
+ 118 0020 3146     		mov	r1, r6
+ 119 0022 2846     		mov	r0, r5
+ 120 0024 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+ 121              	.LVL5:
+  45:Libs/can_al/can_al.c **** }
+ 122              		.loc 1 45 1 is_stmt 0 view .LVU27
+ 123 0028 70BD     		pop	{r4, r5, r6, pc}
+ 124              	.LVL6:
+ 125              	.L8:
+ 126              		.loc 1 45 1 view .LVU28
+ 127 002a 00BF     		.align	2
+ 128              	.L7:
+ 129 002c 00000000 		.word	hcan
+ARM GAS  /tmp/ccwfu5rq.s 			page 4
+
+
+ 130 0030 00000000 		.word	Lib_CAN_Connection_ptr
+ 131              		.cfi_endproc
+ 132              	.LFE66:
+ 134              		.section	.text.CAN_Send,"ax",%progbits
+ 135              		.align	1
+ 136              		.global	CAN_Send
+ 137              		.syntax unified
+ 138              		.thumb
+ 139              		.thumb_func
+ 141              	CAN_Send:
+ 142              	.LVL7:
+ 143              	.LFB67:
+  46:Libs/can_al/can_al.c **** 
+  47:Libs/can_al/can_al.c **** 
+  48:Libs/can_al/can_al.c **** /**
+  49:Libs/can_al/can_al.c ****  * @brief Sends a message onto the CANBUS
+  50:Libs/can_al/can_al.c ****  * 
+  51:Libs/can_al/can_al.c ****  * Send the first n bytes of CAN_ConnectionTypeDef::TxData to the Bus
+  52:Libs/can_al/can_al.c ****  * 
+  53:Libs/can_al/can_al.c ****  * @param CAN_Connection Pointer the CAN_ConnectionTypeDef to send from
+  54:Libs/can_al/can_al.c ****  * @param length How many bytes of CAN_ConnectionTypeDef::TxData to send
+  55:Libs/can_al/can_al.c ****  */
+  56:Libs/can_al/can_al.c **** void CAN_Send(CAN_ConnectionTypeDef* CAN_Connection, int length){
+ 144              		.loc 1 56 65 is_stmt 1 view -0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		.loc 1 56 65 is_stmt 0 view .LVU30
+ 149 0000 08B5     		push	{r3, lr}
+ 150              	.LCFI2:
+ 151              		.cfi_def_cfa_offset 8
+ 152              		.cfi_offset 3, -8
+ 153              		.cfi_offset 14, -4
+  57:Libs/can_al/can_al.c ****     CAN_Connection->TxDataHeader.DLC = length;
+ 154              		.loc 1 57 5 is_stmt 1 view .LVU31
+ 155              		.loc 1 57 38 is_stmt 0 view .LVU32
+ 156 0002 0161     		str	r1, [r0, #16]
+  58:Libs/can_al/can_al.c ****     HAL_CAN_AddTxMessage(&hcan, &CAN_Connection->TxDataHeader, CAN_Connection->TxData, &CAN_Connect
+ 157              		.loc 1 58 5 is_stmt 1 view .LVU33
+ 158 0004 00F13803 		add	r3, r0, #56
+ 159 0008 00F13002 		add	r2, r0, #48
+ 160 000c 0146     		mov	r1, r0
+ 161              	.LVL8:
+ 162              		.loc 1 58 5 is_stmt 0 view .LVU34
+ 163 000e 0248     		ldr	r0, .L11
+ 164              	.LVL9:
+ 165              		.loc 1 58 5 view .LVU35
+ 166 0010 FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 167              	.LVL10:
+  59:Libs/can_al/can_al.c **** }
+ 168              		.loc 1 59 1 view .LVU36
+ 169 0014 08BD     		pop	{r3, pc}
+ 170              	.L12:
+ 171 0016 00BF     		.align	2
+ 172              	.L11:
+ 173 0018 00000000 		.word	hcan
+ 174              		.cfi_endproc
+ARM GAS  /tmp/ccwfu5rq.s 			page 5
+
+
+ 175              	.LFE67:
+ 177              		.section	.text.CAN_Add_Filter_Discrete,"ax",%progbits
+ 178              		.align	1
+ 179              		.global	CAN_Add_Filter_Discrete
+ 180              		.syntax unified
+ 181              		.thumb
+ 182              		.thumb_func
+ 184              	CAN_Add_Filter_Discrete:
+ 185              	.LVL11:
+ 186              	.LFB68:
+  60:Libs/can_al/can_al.c **** 
+  61:Libs/can_al/can_al.c **** /**
+  62:Libs/can_al/can_al.c ****  * @brief Adds filters to a given CAN connection (discrete)
+  63:Libs/can_al/can_al.c ****  * 
+  64:Libs/can_al/can_al.c ****  * Takes an array on 11-bit integers to use as filters for the CAN Controller
+  65:Libs/can_al/can_al.c ****  * 
+  66:Libs/can_al/can_al.c ****  * @param CAN_Connection The CAN_ConnectionTypeDef to add filters too
+  67:Libs/can_al/can_al.c ****  * @param length Length of ids array
+  68:Libs/can_al/can_al.c ****  * @param ids Array of 11-bit CAN identifiers
+  69:Libs/can_al/can_al.c ****  */
+  70:Libs/can_al/can_al.c **** void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* ids){
+ 187              		.loc 1 70 95 is_stmt 1 view -0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 40
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              		.loc 1 70 95 is_stmt 0 view .LVU38
+ 192 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 193              	.LCFI3:
+ 194              		.cfi_def_cfa_offset 20
+ 195              		.cfi_offset 4, -20
+ 196              		.cfi_offset 5, -16
+ 197              		.cfi_offset 6, -12
+ 198              		.cfi_offset 7, -8
+ 199              		.cfi_offset 14, -4
+ 200 0002 8BB0     		sub	sp, sp, #44
+ 201              	.LCFI4:
+ 202              		.cfi_def_cfa_offset 64
+ 203 0004 0E46     		mov	r6, r1
+ 204 0006 1746     		mov	r7, r2
+  71:Libs/can_al/can_al.c ****     int ids_left = length;
+ 205              		.loc 1 71 5 is_stmt 1 view .LVU39
+ 206              	.LVL12:
+  72:Libs/can_al/can_al.c ****   
+  73:Libs/can_al/can_al.c ****     CAN_FilterTypeDef CAN_Filter_Config;
+ 207              		.loc 1 73 5 view .LVU40
+  74:Libs/can_al/can_al.c ****   
+  75:Libs/can_al/can_al.c ****     CAN_Filter_Config.FilterActivation = CAN_FILTER_ENABLE;
+ 208              		.loc 1 75 5 view .LVU41
+ 209              		.loc 1 75 40 is_stmt 0 view .LVU42
+ 210 0008 0123     		movs	r3, #1
+ 211 000a 0893     		str	r3, [sp, #32]
+  76:Libs/can_al/can_al.c ****     CAN_Filter_Config.FilterFIFOAssignment = CAN_FILTER_FIFO0;
+ 212              		.loc 1 76 5 is_stmt 1 view .LVU43
+ 213              		.loc 1 76 44 is_stmt 0 view .LVU44
+ 214 000c 0024     		movs	r4, #0
+ 215 000e 0494     		str	r4, [sp, #16]
+  77:Libs/can_al/can_al.c ****     CAN_Filter_Config.FilterMode = CAN_FILTERMODE_IDLIST;
+ARM GAS  /tmp/ccwfu5rq.s 			page 6
+
+
+ 216              		.loc 1 77 5 is_stmt 1 view .LVU45
+ 217              		.loc 1 77 34 is_stmt 0 view .LVU46
+ 218 0010 0693     		str	r3, [sp, #24]
+  78:Libs/can_al/can_al.c ****     CAN_Filter_Config.FilterScale = CAN_FILTERSCALE_16BIT;
+ 219              		.loc 1 78 5 is_stmt 1 view .LVU47
+ 220              		.loc 1 78 35 is_stmt 0 view .LVU48
+ 221 0012 0794     		str	r4, [sp, #28]
+  79:Libs/can_al/can_al.c ****   
+  80:Libs/can_al/can_al.c ****     for(int i = 0; i < ((length-1)/4)+1; i++){
+ 222              		.loc 1 80 5 is_stmt 1 view .LVU49
+ 223              	.LBB2:
+ 224              		.loc 1 80 9 view .LVU50
+ 225              	.LVL13:
+ 226              		.loc 1 80 9 is_stmt 0 view .LVU51
+ 227              	.LBE2:
+  71:Libs/can_al/can_al.c ****   
+ 228              		.loc 1 71 9 view .LVU52
+ 229 0014 0D46     		mov	r5, r1
+ 230              	.LBB3:
+ 231              		.loc 1 80 5 view .LVU53
+ 232 0016 07E0     		b	.L14
+ 233              	.LVL14:
+ 234              	.L15:
+  81:Libs/can_al/can_al.c ****   
+  82:Libs/can_al/can_al.c ****       CAN_Filter_Config.FilterBank = i;
+  83:Libs/can_al/can_al.c ****   
+  84:Libs/can_al/can_al.c ****       if (ids_left-- > 0)
+  85:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdHigh = (ids[4*i] << 5);
+  86:Libs/can_al/can_al.c ****   
+  87:Libs/can_al/can_al.c ****       if (ids_left-- > 0)
+  88:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdLow = (ids[4*i + 1] << 5);
+  89:Libs/can_al/can_al.c ****   
+  90:Libs/can_al/can_al.c ****       if (ids_left-- > 0)
+ 235              		.loc 1 90 7 is_stmt 1 view .LVU54
+ 236              		.loc 1 90 10 is_stmt 0 view .LVU55
+ 237 0018 022D     		cmp	r5, #2
+ 238 001a 1ADC     		bgt	.L17
+ 239              	.LVL15:
+ 240              	.L16:
+  91:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterMaskIdHigh = (ids[4*i + 2] << 5);
+  92:Libs/can_al/can_al.c ****     
+  93:Libs/can_al/can_al.c ****       if (ids_left-- > 0)
+ 241              		.loc 1 93 7 is_stmt 1 view .LVU56
+ 242              		.loc 1 93 19 is_stmt 0 view .LVU57
+ 243 001c 043D     		subs	r5, r5, #4
+ 244              	.LVL16:
+ 245              	.L18:
+  94:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterMaskIdLow = (ids[4*i + 3] << 5);
+  95:Libs/can_al/can_al.c ****   
+  96:Libs/can_al/can_al.c ****       HAL_CAN_ConfigFilter(&hcan, &CAN_Filter_Config);
+ 246              		.loc 1 96 7 is_stmt 1 view .LVU58
+ 247 001e 6946     		mov	r1, sp
+ 248 0020 1648     		ldr	r0, .L25
+ 249 0022 FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+ 250              	.LVL17:
+  80:Libs/can_al/can_al.c ****   
+ 251              		.loc 1 80 43 discriminator 2 view .LVU59
+ARM GAS  /tmp/ccwfu5rq.s 			page 7
+
+
+ 252 0026 0134     		adds	r4, r4, #1
+ 253              	.LVL18:
+ 254              	.L14:
+  80:Libs/can_al/can_al.c ****   
+ 255              		.loc 1 80 22 discriminator 1 view .LVU60
+  80:Libs/can_al/can_al.c ****   
+ 256              		.loc 1 80 35 is_stmt 0 discriminator 1 view .LVU61
+ 257 0028 731E     		subs	r3, r6, #1
+ 258 002a 23D4     		bmi	.L23
+ 259              	.L19:
+  80:Libs/can_al/can_al.c ****   
+ 260              		.loc 1 80 22 discriminator 1 view .LVU62
+ 261 002c B4EBA30F 		cmp	r4, r3, asr #2
+ 262 0030 22DC     		bgt	.L24
+  82:Libs/can_al/can_al.c ****   
+ 263              		.loc 1 82 7 is_stmt 1 view .LVU63
+  82:Libs/can_al/can_al.c ****   
+ 264              		.loc 1 82 36 is_stmt 0 view .LVU64
+ 265 0032 2346     		mov	r3, r4
+ 266 0034 0594     		str	r4, [sp, #20]
+  84:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdHigh = (ids[4*i] << 5);
+ 267              		.loc 1 84 7 is_stmt 1 view .LVU65
+ 268              	.LVL19:
+  84:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdHigh = (ids[4*i] << 5);
+ 269              		.loc 1 84 10 is_stmt 0 view .LVU66
+ 270 0036 002D     		cmp	r5, #0
+ 271 0038 EEDD     		ble	.L15
+ 272              	.LVL20:
+  85:Libs/can_al/can_al.c ****   
+ 273              		.loc 1 85 9 is_stmt 1 view .LVU67
+  85:Libs/can_al/can_al.c ****   
+ 274              		.loc 1 85 46 is_stmt 0 view .LVU68
+ 275 003a E200     		lsls	r2, r4, #3
+ 276 003c 37F83410 		ldrh	r1, [r7, r4, lsl #3]
+  85:Libs/can_al/can_al.c ****   
+ 277              		.loc 1 85 52 view .LVU69
+ 278 0040 4901     		lsls	r1, r1, #5
+  85:Libs/can_al/can_al.c ****   
+ 279              		.loc 1 85 40 view .LVU70
+ 280 0042 0091     		str	r1, [sp]
+  87:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdLow = (ids[4*i + 1] << 5);
+ 281              		.loc 1 87 7 is_stmt 1 view .LVU71
+ 282              	.LVL21:
+  87:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterIdLow = (ids[4*i + 1] << 5);
+ 283              		.loc 1 87 10 is_stmt 0 view .LVU72
+ 284 0044 012D     		cmp	r5, #1
+ 285 0046 E9DD     		ble	.L16
+  88:Libs/can_al/can_al.c ****   
+ 286              		.loc 1 88 9 is_stmt 1 view .LVU73
+  88:Libs/can_al/can_al.c ****   
+ 287              		.loc 1 88 45 is_stmt 0 view .LVU74
+ 288 0048 3A44     		add	r2, r2, r7
+ 289 004a 5288     		ldrh	r2, [r2, #2]
+  88:Libs/can_al/can_al.c ****   
+ 290              		.loc 1 88 55 view .LVU75
+ 291 004c 5201     		lsls	r2, r2, #5
+  88:Libs/can_al/can_al.c ****   
+ARM GAS  /tmp/ccwfu5rq.s 			page 8
+
+
+ 292              		.loc 1 88 39 view .LVU76
+ 293 004e 0192     		str	r2, [sp, #4]
+ 294 0050 E2E7     		b	.L15
+ 295              	.LVL22:
+ 296              	.L17:
+  91:Libs/can_al/can_al.c ****     
+ 297              		.loc 1 91 9 is_stmt 1 view .LVU77
+  91:Libs/can_al/can_al.c ****     
+ 298              		.loc 1 91 50 is_stmt 0 view .LVU78
+ 299 0052 DA00     		lsls	r2, r3, #3
+ 300 0054 07EBC303 		add	r3, r7, r3, lsl #3
+ 301              	.LVL23:
+  91:Libs/can_al/can_al.c ****     
+ 302              		.loc 1 91 50 view .LVU79
+ 303 0058 9B88     		ldrh	r3, [r3, #4]
+  91:Libs/can_al/can_al.c ****     
+ 304              		.loc 1 91 60 view .LVU80
+ 305 005a 5B01     		lsls	r3, r3, #5
+  91:Libs/can_al/can_al.c ****     
+ 306              		.loc 1 91 44 view .LVU81
+ 307 005c 0293     		str	r3, [sp, #8]
+  93:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterMaskIdLow = (ids[4*i + 3] << 5);
+ 308              		.loc 1 93 7 is_stmt 1 view .LVU82
+  93:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterMaskIdLow = (ids[4*i + 3] << 5);
+ 309              		.loc 1 93 19 is_stmt 0 view .LVU83
+ 310 005e 2B1F     		subs	r3, r5, #4
+ 311              	.LVL24:
+  93:Libs/can_al/can_al.c ****         CAN_Filter_Config.FilterMaskIdLow = (ids[4*i + 3] << 5);
+ 312              		.loc 1 93 10 view .LVU84
+ 313 0060 032D     		cmp	r5, #3
+ 314 0062 05DD     		ble	.L21
+  94:Libs/can_al/can_al.c ****   
+ 315              		.loc 1 94 9 is_stmt 1 view .LVU85
+  94:Libs/can_al/can_al.c ****   
+ 316              		.loc 1 94 49 is_stmt 0 view .LVU86
+ 317 0064 3A44     		add	r2, r2, r7
+ 318 0066 D288     		ldrh	r2, [r2, #6]
+  94:Libs/can_al/can_al.c ****   
+ 319              		.loc 1 94 59 view .LVU87
+ 320 0068 5201     		lsls	r2, r2, #5
+  94:Libs/can_al/can_al.c ****   
+ 321              		.loc 1 94 43 view .LVU88
+ 322 006a 0392     		str	r2, [sp, #12]
+ 323 006c 1D46     		mov	r5, r3
+ 324 006e D6E7     		b	.L18
+ 325              	.L21:
+  94:Libs/can_al/can_al.c ****   
+ 326              		.loc 1 94 43 view .LVU89
+ 327 0070 1D46     		mov	r5, r3
+ 328 0072 D4E7     		b	.L18
+ 329              	.LVL25:
+ 330              	.L23:
+  80:Libs/can_al/can_al.c ****   
+ 331              		.loc 1 80 35 discriminator 1 view .LVU90
+ 332 0074 0333     		adds	r3, r3, #3
+ 333 0076 D9E7     		b	.L19
+ 334              	.L24:
+ARM GAS  /tmp/ccwfu5rq.s 			page 9
+
+
+  80:Libs/can_al/can_al.c ****   
+ 335              		.loc 1 80 35 discriminator 1 view .LVU91
+ 336              	.LBE3:
+  97:Libs/can_al/can_al.c ****     }
+  98:Libs/can_al/can_al.c ****   }...
+ 337              		.loc 1 98 3 view .LVU92
+ 338 0078 0BB0     		add	sp, sp, #44
+ 339              	.LCFI5:
+ 340              		.cfi_def_cfa_offset 20
+ 341              		@ sp needed
+ 342 007a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 343              	.LVL26:
+ 344              	.L26:
+ 345              		.loc 1 98 3 view .LVU93
+ 346              		.align	2
+ 347              	.L25:
+ 348 007c 00000000 		.word	hcan
+ 349              		.cfi_endproc
+ 350              	.LFE68:
+ 352              		.global	Lib_CAN_Connection_ptr
+ 353              		.section	.bss.Lib_CAN_Connection_ptr,"aw",%nobits
+ 354              		.align	2
+ 357              	Lib_CAN_Connection_ptr:
+ 358 0000 00000000 		.space	4
+ 359              		.global	CAN_ISR_FLAG
+ 360              		.section	.bss.CAN_ISR_FLAG,"aw",%nobits
+ 361              		.align	2
+ 364              	CAN_ISR_FLAG:
+ 365 0000 00000000 		.space	4
+ 366              		.text
+ 367              	.Letext0:
+ 368              		.file 2 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 369              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
+ 370              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 371              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h"
+ 372              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 373              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h"
+ 374              		.file 8 "Libs/can_al/can_al.h"
+ARM GAS  /tmp/ccwfu5rq.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 can_al.c
+     /tmp/ccwfu5rq.s:19     .text.HAL_CAN_RxFifo0MsgPendingCallback:00000000 $t
+     /tmp/ccwfu5rq.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:00000000 HAL_CAN_RxFifo0MsgPendingCallback
+     /tmp/ccwfu5rq.s:58     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000001c $d
+     /tmp/ccwfu5rq.s:357    .bss.Lib_CAN_Connection_ptr:00000000 Lib_CAN_Connection_ptr
+     /tmp/ccwfu5rq.s:364    .bss.CAN_ISR_FLAG:00000000 CAN_ISR_FLAG
+     /tmp/ccwfu5rq.s:64     .text.CAN_Start:00000000 $t
+     /tmp/ccwfu5rq.s:70     .text.CAN_Start:00000000 CAN_Start
+     /tmp/ccwfu5rq.s:129    .text.CAN_Start:0000002c $d
+     /tmp/ccwfu5rq.s:135    .text.CAN_Send:00000000 $t
+     /tmp/ccwfu5rq.s:141    .text.CAN_Send:00000000 CAN_Send
+     /tmp/ccwfu5rq.s:173    .text.CAN_Send:00000018 $d
+     /tmp/ccwfu5rq.s:178    .text.CAN_Add_Filter_Discrete:00000000 $t
+     /tmp/ccwfu5rq.s:184    .text.CAN_Add_Filter_Discrete:00000000 CAN_Add_Filter_Discrete
+     /tmp/ccwfu5rq.s:348    .text.CAN_Add_Filter_Discrete:0000007c $d
+     /tmp/ccwfu5rq.s:354    .bss.Lib_CAN_Connection_ptr:00000000 $d
+     /tmp/ccwfu5rq.s:361    .bss.CAN_ISR_FLAG:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_CAN_GetRxMessage
+HAL_CAN_Start
+HAL_CAN_ActivateNotification
+hcan
+HAL_CAN_AddTxMessage
+HAL_CAN_ConfigFilter
