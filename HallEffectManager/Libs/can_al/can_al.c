@@ -20,7 +20,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* canh){
 /**
  * @brief Starts the CAN bus
  *  
- * Set's the node's if
+ * Set's the node's id
  * Defines important TX headers
  * Start the FIFO0 message Callback
  * Saves the CAN_ConnectionTypeDef's address for future use in the callback function
@@ -33,10 +33,6 @@ void CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id){
     CAN_Connection->TxDataHeader.IDE = CAN_ID_STD;
     CAN_Connection->TxDataHeader.StdId = id;
     CAN_Connection->TxDataHeader.RTR = CAN_RTR_DATA;
-  
-    CAN_Connection->TxRequestHeader.IDE = CAN_ID_STD;
-    CAN_Connection->TxRequestHeader.StdId = id;
-    CAN_Connection->TxRequestHeader.RTR = CAN_RTR_REMOTE;
   
     HAL_CAN_Start(&hcan);
   
@@ -96,3 +92,5 @@ void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, 
       HAL_CAN_ConfigFilter(&hcan, &CAN_Filter_Config);
     }
   }
+
+  

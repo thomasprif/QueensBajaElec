@@ -57,6 +57,20 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DEBUG_LED_Pin GPIO_PIN_13
+#define DEBUG_LED_GPIO_Port GPIOC
+#define RPM0_Pin GPIO_PIN_10
+#define RPM0_GPIO_Port GPIOB
+#define RPM0_EXTI_IRQn EXTI15_10_IRQn
+#define RPM1_Pin GPIO_PIN_11
+#define RPM1_GPIO_Port GPIOB
+#define RPM1_EXTI_IRQn EXTI15_10_IRQn
+#define RPM2_Pin GPIO_PIN_12
+#define RPM2_GPIO_Port GPIOB
+#define RPM2_EXTI_IRQn EXTI15_10_IRQn
+#define RPM3_Pin GPIO_PIN_13
+#define RPM3_GPIO_Port GPIOB
+#define RPM3_EXTI_IRQn EXTI15_10_IRQn
 
 /* USER CODE BEGIN Private defines */
 

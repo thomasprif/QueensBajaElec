@@ -1,16 +1,23 @@
 #include "main.h"
 #include "can_al.h"
+#include "led.h"
+#include "rpm.h"
 
 CAN_ConnectionTypeDef CAN;
 
 
 void Cu_main(){
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+    status_led(STATUS_OK);
 
     uint16_t ids[] = {0x447, 0x449, 0x1, 0x2, 0x3, 0x445};
     CAN_Add_Filter_Discrete(&CAN, 6, ids);
 
     CAN_Start(&CAN, 0x447);
+
+    
+
+
+
 
     while(1){
         if(CAN_ISR_FLAG){

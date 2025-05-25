@@ -1,0 +1,377 @@
+ARM GAS  /tmp/ccJX8kG3.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"led.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Libs/led/led.c"
+  18              		.section	.text.status_led,"ax",%progbits
+  19              		.align	1
+  20              		.global	status_led
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	status_led:
+  26              	.LVL0:
+  27              	.LFB65:
+   1:Libs/led/led.c **** #include "led.h"
+   2:Libs/led/led.c **** /**
+   3:Libs/led/led.c ****  * @brief This function controls a status LED based on a provided code.
+   4:Libs/led/led.c ****  * The LED's blinking pattern is determined by the bits in the `code` parameter.
+   5:Libs/led/led.c ****  * 
+   6:Libs/led/led.c ****  * @param code A 8-bit integer where each bit represents a specific LED state.
+   7:Libs/led/led.c ****  *        The most significant bit (MSB, 0x80) controls whether the LED should blink in a loop. Thu
+   8:Libs/led/led.c ****  *        The remaining bits (7 to 0) control the LED's on/off state at each step.
+   9:Libs/led/led.c ****  * 
+  10:Libs/led/led.c ****  * The function performs the following:
+  11:Libs/led/led.c ****  * - If the MSB (bit 7) of the code is set (1), the LED will blink in a loop.
+  12:Libs/led/led.c ****  * - If the MSB is not set (0), the LED will blink once according to the code.
+  13:Libs/led/led.c ****  * - Each bit from 1 to 7 in the `code` determines the on/off state of the LED, with `1` meaning ON
+  14:Libs/led/led.c ****  * - The LED will change states every 100 milliseconds.
+  15:Libs/led/led.c ****  */
+  16:Libs/led/led.c **** void status_led(uint8_t code){
+  28              		.loc 1 16 30 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 16 30 is_stmt 0 view .LVU1
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 4, -16
+  37              		.cfi_offset 5, -12
+  38              		.cfi_offset 6, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0546     		mov	r5, r0
+  17:Libs/led/led.c ****     int loop;
+  41              		.loc 1 17 5 is_stmt 1 view .LVU2
+ARM GAS  /tmp/ccJX8kG3.s 			page 2
+
+
+  18:Libs/led/led.c ****     if(code & 0x80){
+  42              		.loc 1 18 5 view .LVU3
+  43              		.loc 1 18 7 is_stmt 0 view .LVU4
+  44 0004 10F0800F 		tst	r0, #128
+  45 0008 08D0     		beq	.L8
+  46              	.LVL1:
+  19:Libs/led/led.c ****         loop = 1;
+  20:Libs/led/led.c ****     } else {
+  21:Libs/led/led.c ****         loop = 0;
+  22:Libs/led/led.c ****     }
+  23:Libs/led/led.c **** 
+  24:Libs/led/led.c ****     if(loop == 1){
+  47              		.loc 1 24 5 is_stmt 1 view .LVU5
+  25:Libs/led/led.c ****         __disable_irq();
+  48              		.loc 1 25 9 view .LVU6
+  49              	.LBB5:
+  50              	.LBI5:
+  51              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+   1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+   4:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.0.4
+   5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
+   6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
+   9:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+  36:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+ARM GAS  /tmp/ccJX8kG3.s 			page 3
+
+
+  40:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+  45:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+  52:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  61:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+  93:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ARM GAS  /tmp/ccJX8kG3.s 			page 4
+
+
+  97:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 102:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ 109:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 117:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 118:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 119:Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 123:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 126:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 127:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 128:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 129:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 130:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 131:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 132:Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 133:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 134:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 135:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 136:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Disable IRQ Interrupts
+ 137:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+ 138:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 139:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
+  52              		.loc 2 140 27 view .LVU7
+  53              	.LBB6:
+ 141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+  54              		.loc 2 142 3 view .LVU8
+  55              		.syntax unified
+  56              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+  57 000a 72B6     		cpsid i
+  58              	@ 0 "" 2
+  59              		.thumb
+  60              		.syntax unified
+  61              	.LBE6:
+  62              	.LBE5:
+ARM GAS  /tmp/ccJX8kG3.s 			page 5
+
+
+  26:Libs/led/led.c ****         SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+  63              		.loc 1 26 9 view .LVU9
+  64              		.loc 1 26 16 is_stmt 0 view .LVU10
+  65 000c 4FF0E022 		mov	r2, #-536813568
+  66 0010 1369     		ldr	r3, [r2, #16]
+  67              		.loc 1 26 23 view .LVU11
+  68 0012 43F00103 		orr	r3, r3, #1
+  69 0016 1361     		str	r3, [r2, #16]
+  19:Libs/led/led.c ****     } else {
+  70              		.loc 1 19 14 view .LVU12
+  71 0018 0126     		movs	r6, #1
+  72 001a 1AE0     		b	.L7
+  73              	.LVL2:
+  74              	.L8:
+  21:Libs/led/led.c ****     }
+  75              		.loc 1 21 14 view .LVU13
+  76 001c 0026     		movs	r6, #0
+  77 001e 18E0     		b	.L7
+  78              	.LVL3:
+  79              	.L4:
+  80              	.LBB7:
+  27:Libs/led/led.c ****     }
+  28:Libs/led/led.c **** 
+  29:Libs/led/led.c ****     do{
+  30:Libs/led/led.c ****         for(int i=1; i<=7; i++){
+  31:Libs/led/led.c ****             if((code << i) & 0x80){
+  32:Libs/led/led.c ****                 HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, GPIO_PIN_SET);
+  33:Libs/led/led.c ****             } else {
+  34:Libs/led/led.c ****                 HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, GPIO_PIN_RESET);
+  81              		.loc 1 34 17 is_stmt 1 view .LVU14
+  82 0020 0022     		movs	r2, #0
+  83 0022 4FF40051 		mov	r1, #8192
+  84 0026 0C48     		ldr	r0, .L12
+  85 0028 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  86              	.LVL4:
+  87              	.L5:
+  35:Libs/led/led.c ****             }
+  36:Libs/led/led.c ****             HAL_Delay(200);
+  88              		.loc 1 36 13 view .LVU15
+  89 002c C820     		movs	r0, #200
+  90 002e FFF7FEFF 		bl	HAL_Delay
+  91              	.LVL5:
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+  92              		.loc 1 30 29 discriminator 2 view .LVU16
+  93 0032 0134     		adds	r4, r4, #1
+  94              	.LVL6:
+  95              	.L3:
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+  96              		.loc 1 30 23 discriminator 1 view .LVU17
+  97 0034 072C     		cmp	r4, #7
+  98 0036 0BDC     		bgt	.L10
+  31:Libs/led/led.c ****                 HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, GPIO_PIN_SET);
+  99              		.loc 1 31 13 view .LVU18
+  31:Libs/led/led.c ****                 HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, GPIO_PIN_SET);
+ 100              		.loc 1 31 22 is_stmt 0 view .LVU19
+ 101 0038 05FA04F3 		lsl	r3, r5, r4
+  31:Libs/led/led.c ****                 HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, GPIO_PIN_SET);
+ARM GAS  /tmp/ccJX8kG3.s 			page 6
+
+
+ 102              		.loc 1 31 15 view .LVU20
+ 103 003c 13F0800F 		tst	r3, #128
+ 104 0040 EED0     		beq	.L4
+  32:Libs/led/led.c ****             } else {
+ 105              		.loc 1 32 17 is_stmt 1 view .LVU21
+ 106 0042 0122     		movs	r2, #1
+ 107 0044 4FF40051 		mov	r1, #8192
+ 108 0048 0348     		ldr	r0, .L12
+ 109 004a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 110              	.LVL7:
+ 111 004e EDE7     		b	.L5
+ 112              	.L10:
+  32:Libs/led/led.c ****             } else {
+ 113              		.loc 1 32 17 is_stmt 0 view .LVU22
+ 114              	.LBE7:
+  37:Libs/led/led.c ****         }
+  38:Libs/led/led.c ****     } while (loop);
+ 115              		.loc 1 38 14 is_stmt 1 view .LVU23
+ 116 0050 0EB1     		cbz	r6, .L11
+ 117              	.LVL8:
+ 118              	.L7:
+  29:Libs/led/led.c ****         for(int i=1; i<=7; i++){
+ 119              		.loc 1 29 5 view .LVU24
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+ 120              		.loc 1 30 9 view .LVU25
+ 121              	.LBB8:
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+ 122              		.loc 1 30 13 view .LVU26
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+ 123              		.loc 1 30 17 is_stmt 0 view .LVU27
+ 124 0052 0124     		movs	r4, #1
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+ 125              		.loc 1 30 9 view .LVU28
+ 126 0054 EEE7     		b	.L3
+ 127              	.LVL9:
+ 128              	.L11:
+  30:Libs/led/led.c ****             if((code << i) & 0x80){
+ 129              		.loc 1 30 9 view .LVU29
+ 130              	.LBE8:
+  39:Libs/led/led.c **** 
+  40:Libs/led/led.c **** }...
+ 131              		.loc 1 40 1 view .LVU30
+ 132 0056 70BD     		pop	{r4, r5, r6, pc}
+ 133              	.LVL10:
+ 134              	.L13:
+ 135              		.loc 1 40 1 view .LVU31
+ 136              		.align	2
+ 137              	.L12:
+ 138 0058 00100140 		.word	1073811456
+ 139              		.cfi_endproc
+ 140              	.LFE65:
+ 142              		.text
+ 143              	.Letext0:
+ 144              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 145              		.file 4 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
+ 146              		.file 5 "Drivers/CMSIS/Include/core_cm3.h"
+ 147              		.file 6 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ARM GAS  /tmp/ccJX8kG3.s 			page 7
+
+
+ 148              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 149              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ARM GAS  /tmp/ccJX8kG3.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 led.c
+     /tmp/ccJX8kG3.s:19     .text.status_led:00000000 $t
+     /tmp/ccJX8kG3.s:25     .text.status_led:00000000 status_led
+     /tmp/ccJX8kG3.s:138    .text.status_led:00000058 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_Delay
