@@ -1,0 +1,405 @@
+ARM GAS  /tmp/cc4LecEU.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"rpm.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Libs/rpm/rpm.c"
+  18              		.section	.text.RPM_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	RPM_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	RPM_Init:
+  26              	.LFB65:
+   1:Libs/rpm/rpm.c **** #include "rpm.h"
+   2:Libs/rpm/rpm.c **** #include "can_al.h"
+   3:Libs/rpm/rpm.c **** 
+   4:Libs/rpm/rpm.c **** extern CAN_ConnectionTypeDef CAN;
+   5:Libs/rpm/rpm.c **** extern TIM_HandleTypeDef htim1;
+   6:Libs/rpm/rpm.c **** extern TIM_HandleTypeDef htim2;
+   7:Libs/rpm/rpm.c **** rpmData rpms[NUM_RPM];
+   8:Libs/rpm/rpm.c **** int rpm_sensor;
+   9:Libs/rpm/rpm.c **** int RPM_EXTI_FLAG = 0;
+  10:Libs/rpm/rpm.c **** 
+  11:Libs/rpm/rpm.c **** void RPM_Init(){
+  27              		.loc 1 11 16 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  12:Libs/rpm/rpm.c ****     for(int i=0; i<NUM_RPM; i++){
+  32              		.loc 1 12 5 view .LVU1
+  33              	.LBB2:
+  34              		.loc 1 12 9 view .LVU2
+  35              	.LVL0:
+  36              		.loc 1 12 13 is_stmt 0 view .LVU3
+  37 0000 0023     		movs	r3, #0
+  38              		.loc 1 12 5 view .LVU4
+  39 0002 0CE0     		b	.L2
+  40              	.LVL1:
+  41              	.L3:
+  13:Libs/rpm/rpm.c ****         rpms[i].current_rpm = 0;
+  42              		.loc 1 13 9 is_stmt 1 view .LVU5
+  43              		.loc 1 13 29 is_stmt 0 view .LVU6
+  44 0004 0748     		ldr	r0, .L4
+  45 0006 4FEA031C 		lsl	ip, r3, #4
+ARM GAS  /tmp/cc4LecEU.s 			page 2
+
+
+  46 000a 00EB0312 		add	r2, r0, r3, lsl #4
+  47 000e 0021     		movs	r1, #0
+  48 0010 20F80C10 		strh	r1, [r0, ip]	@ movhi
+  14:Libs/rpm/rpm.c ****         rpms[i].total_pulses = 0;
+  49              		.loc 1 14 9 is_stmt 1 view .LVU7
+  50              		.loc 1 14 30 is_stmt 0 view .LVU8
+  51 0014 5160     		str	r1, [r2, #4]
+  15:Libs/rpm/rpm.c ****         rpms[i].last_seen_time = 0;
+  52              		.loc 1 15 9 is_stmt 1 view .LVU9
+  53              		.loc 1 15 32 is_stmt 0 view .LVU10
+  54 0016 9160     		str	r1, [r2, #8]
+  16:Libs/rpm/rpm.c ****         rpms[i].pulses_per_rev = 1;
+  55              		.loc 1 16 9 is_stmt 1 view .LVU11
+  56              		.loc 1 16 32 is_stmt 0 view .LVU12
+  57 0018 0121     		movs	r1, #1
+  58 001a D160     		str	r1, [r2, #12]
+  12:Libs/rpm/rpm.c ****         rpms[i].current_rpm = 0;
+  59              		.loc 1 12 30 is_stmt 1 discriminator 3 view .LVU13
+  60 001c 0B44     		add	r3, r3, r1
+  61              	.LVL2:
+  62              	.L2:
+  12:Libs/rpm/rpm.c ****         rpms[i].current_rpm = 0;
+  63              		.loc 1 12 19 discriminator 1 view .LVU14
+  64 001e 032B     		cmp	r3, #3
+  65 0020 F0DD     		ble	.L3
+  66              	.LBE2:
+  17:Libs/rpm/rpm.c ****     }
+  18:Libs/rpm/rpm.c **** }
+  67              		.loc 1 18 1 is_stmt 0 view .LVU15
+  68 0022 7047     		bx	lr
+  69              	.L5:
+  70              		.align	2
+  71              	.L4:
+  72 0024 00000000 		.word	rpms
+  73              		.cfi_endproc
+  74              	.LFE65:
+  76              		.section	.text.RPM_Update,"ax",%progbits
+  77              		.align	1
+  78              		.global	RPM_Update
+  79              		.syntax unified
+  80              		.thumb
+  81              		.thumb_func
+  83              	RPM_Update:
+  84              	.LFB66:
+  19:Libs/rpm/rpm.c **** 
+  20:Libs/rpm/rpm.c **** void RPM_Update(){
+  85              		.loc 1 20 18 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89              		@ link register save eliminated.
+  21:Libs/rpm/rpm.c ****     rpmData* rpm = &(rpms[rpm_sensor]);
+  90              		.loc 1 21 5 view .LVU17
+  91              		.loc 1 21 26 is_stmt 0 view .LVU18
+  92 0000 124B     		ldr	r3, .L8
+  93 0002 1A68     		ldr	r2, [r3]
+  94              	.LVL3:
+ARM GAS  /tmp/cc4LecEU.s 			page 3
+
+
+  22:Libs/rpm/rpm.c **** 
+  23:Libs/rpm/rpm.c ****     uint32_t now = __HAL_TIM_GET_COUNTER(&htim1) + 10000*__HAL_TIM_GET_COUNTER(&htim2);
+  95              		.loc 1 23 5 is_stmt 1 view .LVU19
+  96              		.loc 1 23 20 is_stmt 0 view .LVU20
+  97 0004 124B     		ldr	r3, .L8+4
+  98 0006 1B68     		ldr	r3, [r3]
+  99 0008 596A     		ldr	r1, [r3, #36]
+ 100              		.loc 1 23 58 view .LVU21
+ 101 000a 124B     		ldr	r3, .L8+8
+ 102 000c 1B68     		ldr	r3, [r3]
+ 103 000e 5B6A     		ldr	r3, [r3, #36]
+ 104              		.loc 1 23 14 view .LVU22
+ 105 0010 42F21070 		movw	r0, #10000
+ 106 0014 00FB0311 		mla	r1, r0, r3, r1
+ 107              	.LVL4:
+  24:Libs/rpm/rpm.c ****     uint32_t pulse_diff = now - rpm->last_seen_time;
+ 108              		.loc 1 24 5 is_stmt 1 view .LVU23
+ 109              		.loc 1 24 36 is_stmt 0 view .LVU24
+ 110 0018 0F4B     		ldr	r3, .L8+12
+ 111 001a 03EB0213 		add	r3, r3, r2, lsl #4
+ 112              	.LVL5:
+ 113              		.loc 1 24 36 view .LVU25
+ 114 001e 9868     		ldr	r0, [r3, #8]
+ 115              		.loc 1 24 14 view .LVU26
+ 116 0020 081A     		subs	r0, r1, r0
+ 117              	.LVL6:
+  25:Libs/rpm/rpm.c **** 
+  26:Libs/rpm/rpm.c ****     rpm->last_seen_time = now;
+ 118              		.loc 1 26 5 is_stmt 1 view .LVU27
+ 119              		.loc 1 26 25 is_stmt 0 view .LVU28
+ 120 0022 9960     		str	r1, [r3, #8]
+  27:Libs/rpm/rpm.c **** 
+  28:Libs/rpm/rpm.c ****     if(pulse_diff > INACTIVITY_TIMEOUT/(rpm->pulses_per_rev))
+ 121              		.loc 1 28 5 is_stmt 1 view .LVU29
+ 122              		.loc 1 28 44 is_stmt 0 view .LVU30
+ 123 0024 D968     		ldr	r1, [r3, #12]
+ 124              	.LVL7:
+ 125              		.loc 1 28 39 view .LVU31
+ 126 0026 0D4B     		ldr	r3, .L8+16
+ 127              	.LVL8:
+ 128              		.loc 1 28 39 view .LVU32
+ 129 0028 B3FBF1F3 		udiv	r3, r3, r1
+ 130              		.loc 1 28 7 view .LVU33
+ 131 002c 8342     		cmp	r3, r0
+ 132 002e 0CD3     		bcc	.L6
+  29:Libs/rpm/rpm.c ****         return;
+  30:Libs/rpm/rpm.c **** 
+  31:Libs/rpm/rpm.c ****     rpm->current_rpm = 6000000 / (pulse_diff*rpm->pulses_per_rev);
+ 133              		.loc 1 31 5 is_stmt 1 view .LVU34
+ 134              		.loc 1 31 45 is_stmt 0 view .LVU35
+ 135 0030 00FB01F1 		mul	r1, r0, r1
+ 136              		.loc 1 31 32 view .LVU36
+ 137 0034 0A4B     		ldr	r3, .L8+20
+ 138 0036 B3FBF1F3 		udiv	r3, r3, r1
+ 139              		.loc 1 31 22 view .LVU37
+ 140 003a 0749     		ldr	r1, .L8+12
+ 141 003c 1001     		lsls	r0, r2, #4
+ARM GAS  /tmp/cc4LecEU.s 			page 4
+
+
+ 142              	.LVL9:
+ 143              		.loc 1 31 22 view .LVU38
+ 144 003e 01EB0212 		add	r2, r1, r2, lsl #4
+ 145              	.LVL10:
+ 146              		.loc 1 31 22 view .LVU39
+ 147 0042 0B52     		strh	r3, [r1, r0]	@ movhi
+  32:Libs/rpm/rpm.c **** 
+  33:Libs/rpm/rpm.c ****     rpm->total_pulses++;
+ 148              		.loc 1 33 5 is_stmt 1 view .LVU40
+ 149              		.loc 1 33 8 is_stmt 0 view .LVU41
+ 150 0044 5368     		ldr	r3, [r2, #4]
+ 151              		.loc 1 33 22 view .LVU42
+ 152 0046 0133     		adds	r3, r3, #1
+ 153 0048 5360     		str	r3, [r2, #4]
+ 154              	.LVL11:
+ 155              	.L6:
+  34:Libs/rpm/rpm.c **** }
+ 156              		.loc 1 34 1 view .LVU43
+ 157 004a 7047     		bx	lr
+ 158              	.L9:
+ 159              		.align	2
+ 160              	.L8:
+ 161 004c 00000000 		.word	rpm_sensor
+ 162 0050 00000000 		.word	htim1
+ 163 0054 00000000 		.word	htim2
+ 164 0058 00000000 		.word	rpms
+ 165 005c 801A0600 		.word	400000
+ 166 0060 808D5B00 		.word	6000000
+ 167              		.cfi_endproc
+ 168              	.LFE66:
+ 170              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+ 171              		.align	1
+ 172              		.global	HAL_GPIO_EXTI_Callback
+ 173              		.syntax unified
+ 174              		.thumb
+ 175              		.thumb_func
+ 177              	HAL_GPIO_EXTI_Callback:
+ 178              	.LVL12:
+ 179              	.LFB67:
+  35:Libs/rpm/rpm.c **** 
+  36:Libs/rpm/rpm.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+ 180              		.loc 1 36 47 is_stmt 1 view -0
+ 181              		.cfi_startproc
+ 182              		@ args = 0, pretend = 0, frame = 0
+ 183              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184              		@ link register save eliminated.
+  37:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM0_Pin) rpm_sensor = 0;
+ 185              		.loc 1 37 5 view .LVU45
+ 186              		.loc 1 37 7 is_stmt 0 view .LVU46
+ 187 0000 B0F5806F 		cmp	r0, #1024
+ 188 0004 0CD0     		beq	.L15
+  38:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM1_Pin) rpm_sensor = 1;
+ 189              		.loc 1 38 5 is_stmt 1 view .LVU47
+ 190              		.loc 1 38 7 is_stmt 0 view .LVU48
+ 191 0006 B0F5006F 		cmp	r0, #2048
+ 192 000a 0DD0     		beq	.L16
+ 193              	.L12:
+ARM GAS  /tmp/cc4LecEU.s 			page 5
+
+
+  39:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM2_Pin) rpm_sensor = 2;
+ 194              		.loc 1 39 5 is_stmt 1 view .LVU49
+ 195              		.loc 1 39 7 is_stmt 0 view .LVU50
+ 196 000c B0F5805F 		cmp	r0, #4096
+ 197 0010 0ED0     		beq	.L17
+ 198              	.L13:
+  40:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM3_Pin) rpm_sensor = 3;
+ 199              		.loc 1 40 5 is_stmt 1 view .LVU51
+ 200              		.loc 1 40 7 is_stmt 0 view .LVU52
+ 201 0012 B0F5005F 		cmp	r0, #8192
+ 202 0016 0FD0     		beq	.L18
+ 203              	.L14:
+  41:Libs/rpm/rpm.c ****     RPM_EXTI_FLAG = 1;
+ 204              		.loc 1 41 5 is_stmt 1 view .LVU53
+ 205              		.loc 1 41 19 is_stmt 0 view .LVU54
+ 206 0018 094B     		ldr	r3, .L19
+ 207 001a 0122     		movs	r2, #1
+ 208 001c 1A60     		str	r2, [r3]
+  42:Libs/rpm/rpm.c **** }
+ 209              		.loc 1 42 1 view .LVU55
+ 210 001e 7047     		bx	lr
+ 211              	.L15:
+  37:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM1_Pin) rpm_sensor = 1;
+ 212              		.loc 1 37 30 is_stmt 1 discriminator 1 view .LVU56
+  37:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM1_Pin) rpm_sensor = 1;
+ 213              		.loc 1 37 41 is_stmt 0 discriminator 1 view .LVU57
+ 214 0020 084B     		ldr	r3, .L19+4
+ 215 0022 0022     		movs	r2, #0
+ 216 0024 1A60     		str	r2, [r3]
+  38:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM2_Pin) rpm_sensor = 2;
+ 217              		.loc 1 38 5 is_stmt 1 view .LVU58
+ 218 0026 F1E7     		b	.L12
+ 219              	.L16:
+  38:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM2_Pin) rpm_sensor = 2;
+ 220              		.loc 1 38 30 discriminator 1 view .LVU59
+  38:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM2_Pin) rpm_sensor = 2;
+ 221              		.loc 1 38 41 is_stmt 0 discriminator 1 view .LVU60
+ 222 0028 064B     		ldr	r3, .L19+4
+ 223 002a 0122     		movs	r2, #1
+ 224 002c 1A60     		str	r2, [r3]
+  39:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM3_Pin) rpm_sensor = 3;
+ 225              		.loc 1 39 5 is_stmt 1 view .LVU61
+ 226 002e F0E7     		b	.L13
+ 227              	.L17:
+  39:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM3_Pin) rpm_sensor = 3;
+ 228              		.loc 1 39 30 discriminator 1 view .LVU62
+  39:Libs/rpm/rpm.c ****     if(GPIO_Pin == RPM3_Pin) rpm_sensor = 3;
+ 229              		.loc 1 39 41 is_stmt 0 discriminator 1 view .LVU63
+ 230 0030 044B     		ldr	r3, .L19+4
+ 231 0032 0222     		movs	r2, #2
+ 232 0034 1A60     		str	r2, [r3]
+  40:Libs/rpm/rpm.c ****     RPM_EXTI_FLAG = 1;
+ 233              		.loc 1 40 5 is_stmt 1 view .LVU64
+ 234 0036 EFE7     		b	.L14
+ 235              	.L18:
+  40:Libs/rpm/rpm.c ****     RPM_EXTI_FLAG = 1;
+ 236              		.loc 1 40 30 discriminator 1 view .LVU65
+ARM GAS  /tmp/cc4LecEU.s 			page 6
+
+
+  40:Libs/rpm/rpm.c ****     RPM_EXTI_FLAG = 1;
+ 237              		.loc 1 40 41 is_stmt 0 discriminator 1 view .LVU66
+ 238 0038 024B     		ldr	r3, .L19+4
+ 239 003a 0322     		movs	r2, #3
+ 240 003c 1A60     		str	r2, [r3]
+ 241 003e EBE7     		b	.L14
+ 242              	.L20:
+ 243              		.align	2
+ 244              	.L19:
+ 245 0040 00000000 		.word	RPM_EXTI_FLAG
+ 246 0044 00000000 		.word	rpm_sensor
+ 247              		.cfi_endproc
+ 248              	.LFE67:
+ 250              		.section	.text.RPM_set_pulses_per_rev,"ax",%progbits
+ 251              		.align	1
+ 252              		.global	RPM_set_pulses_per_rev
+ 253              		.syntax unified
+ 254              		.thumb
+ 255              		.thumb_func
+ 257              	RPM_set_pulses_per_rev:
+ 258              	.LVL13:
+ 259              	.LFB68:
+  43:Libs/rpm/rpm.c **** 
+  44:Libs/rpm/rpm.c **** void RPM_set_pulses_per_rev(int rpm, int pulse_per_rev){
+ 260              		.loc 1 44 56 is_stmt 1 view -0
+ 261              		.cfi_startproc
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              		@ link register save eliminated.
+  45:Libs/rpm/rpm.c ****     rpms[rpm].pulses_per_rev = pulse_per_rev;
+ 265              		.loc 1 45 5 view .LVU68
+ 266              		.loc 1 45 30 is_stmt 0 view .LVU69
+ 267 0000 024B     		ldr	r3, .L22
+ 268 0002 03EB0013 		add	r3, r3, r0, lsl #4
+ 269 0006 D960     		str	r1, [r3, #12]
+  46:Libs/rpm/rpm.c **** }...
+ 270              		.loc 1 46 1 view .LVU70
+ 271 0008 7047     		bx	lr
+ 272              	.L23:
+ 273 000a 00BF     		.align	2
+ 274              	.L22:
+ 275 000c 00000000 		.word	rpms
+ 276              		.cfi_endproc
+ 277              	.LFE68:
+ 279              		.global	RPM_EXTI_FLAG
+ 280              		.section	.bss.RPM_EXTI_FLAG,"aw",%nobits
+ 281              		.align	2
+ 284              	RPM_EXTI_FLAG:
+ 285 0000 00000000 		.space	4
+ 286              		.global	rpm_sensor
+ 287              		.section	.bss.rpm_sensor,"aw",%nobits
+ 288              		.align	2
+ 291              	rpm_sensor:
+ 292 0000 00000000 		.space	4
+ 293              		.global	rpms
+ 294              		.section	.bss.rpms,"aw",%nobits
+ 295              		.align	2
+ARM GAS  /tmp/cc4LecEU.s 			page 7
+
+
+ 298              	rpms:
+ 299 0000 00000000 		.space	64
+ 299      00000000 
+ 299      00000000 
+ 299      00000000 
+ 299      00000000 
+ 300              		.text
+ 301              	.Letext0:
+ 302              		.file 2 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 303              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
+ 304              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 305              		.file 5 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 306              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 307              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 308              		.file 8 "Libs/rpm/rpm.h"
+ARM GAS  /tmp/cc4LecEU.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 rpm.c
+     /tmp/cc4LecEU.s:19     .text.RPM_Init:00000000 $t
+     /tmp/cc4LecEU.s:25     .text.RPM_Init:00000000 RPM_Init
+     /tmp/cc4LecEU.s:72     .text.RPM_Init:00000024 $d
+     /tmp/cc4LecEU.s:298    .bss.rpms:00000000 rpms
+     /tmp/cc4LecEU.s:77     .text.RPM_Update:00000000 $t
+     /tmp/cc4LecEU.s:83     .text.RPM_Update:00000000 RPM_Update
+     /tmp/cc4LecEU.s:161    .text.RPM_Update:0000004c $d
+     /tmp/cc4LecEU.s:291    .bss.rpm_sensor:00000000 rpm_sensor
+     /tmp/cc4LecEU.s:171    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+     /tmp/cc4LecEU.s:177    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+     /tmp/cc4LecEU.s:245    .text.HAL_GPIO_EXTI_Callback:00000040 $d
+     /tmp/cc4LecEU.s:284    .bss.RPM_EXTI_FLAG:00000000 RPM_EXTI_FLAG
+     /tmp/cc4LecEU.s:251    .text.RPM_set_pulses_per_rev:00000000 $t
+     /tmp/cc4LecEU.s:257    .text.RPM_set_pulses_per_rev:00000000 RPM_set_pulses_per_rev
+     /tmp/cc4LecEU.s:275    .text.RPM_set_pulses_per_rev:0000000c $d
+     /tmp/cc4LecEU.s:281    .bss.RPM_EXTI_FLAG:00000000 $d
+     /tmp/cc4LecEU.s:288    .bss.rpm_sensor:00000000 $d
+     /tmp/cc4LecEU.s:295    .bss.rpms:00000000 $d
+
+UNDEFINED SYMBOLS
+htim1
+htim2

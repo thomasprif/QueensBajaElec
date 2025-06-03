@@ -93,4 +93,15 @@ void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, 
     }
   }
 
-  
+void CAN_Pack_TX_2Byte(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* data){
+  for(int i=0; i<length; i++){
+    CAN_Connection->TxData[2*i]   = (data[i] >> 8) & 0xFF;
+    CAN_Connection->TxData[2*i+1] = (data[i] >> 0) & 0xFF;
+  }
+}
+
+void CAN_Unpack_RX_2Byte(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* data){
+  for(int i=0; i<length; i++){
+    data[i] = CAN_Connection->RxData[2*i] + (CAN_Connection->RxData[2*i+1] << 8);
+  }
+}

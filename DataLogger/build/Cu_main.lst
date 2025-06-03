@@ -1,0 +1,1219 @@
+ARM GAS  /tmp/ccmFCbuH.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"Cu_main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Cu_main/Cu_main.c"
+  18              		.section	.text.bufsize,"ax",%progbits
+  19              		.align	1
+  20              		.global	bufsize
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	bufsize:
+  26              	.LVL0:
+  27              	.LFB68:
+   1:Cu_main/Cu_main.c **** #include "main.h"
+   2:Cu_main/Cu_main.c **** #include "can_al.h"
+   3:Cu_main/Cu_main.c **** #include "fatfs.h"
+   4:Cu_main/Cu_main.c **** #include <stdarg.h>
+   5:Cu_main/Cu_main.c **** #include <stdio.h>
+   6:Cu_main/Cu_main.c **** #include <string.h>
+   7:Cu_main/Cu_main.c **** 
+   8:Cu_main/Cu_main.c **** CAN_ConnectionTypeDef CAN;
+   9:Cu_main/Cu_main.c **** extern UART_HandleTypeDef huart1;
+  10:Cu_main/Cu_main.c **** 
+  11:Cu_main/Cu_main.c **** #define BUFFER_SIZE 128
+  12:Cu_main/Cu_main.c **** 
+  13:Cu_main/Cu_main.c **** FATFS fs;  // file system
+  14:Cu_main/Cu_main.c **** FIL fil; // File
+  15:Cu_main/Cu_main.c **** FILINFO fno;
+  16:Cu_main/Cu_main.c **** FRESULT fresult;  // result
+  17:Cu_main/Cu_main.c **** UINT br, bw;  // File read/write count
+  18:Cu_main/Cu_main.c **** 
+  19:Cu_main/Cu_main.c **** /**** capacity related *****/
+  20:Cu_main/Cu_main.c **** FATFS *pfs;
+  21:Cu_main/Cu_main.c **** DWORD fre_clust;
+  22:Cu_main/Cu_main.c **** uint32_t total, free_space;
+  23:Cu_main/Cu_main.c **** 
+  24:Cu_main/Cu_main.c **** char buffer[BUFFER_SIZE];  // to store strings..
+  25:Cu_main/Cu_main.c **** 
+  26:Cu_main/Cu_main.c **** int bufsize (char *buf) {
+  28              		.loc 1 26 25 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ARM GAS  /tmp/ccmFCbuH.s 			page 2
+
+
+  33              		.loc 1 26 25 is_stmt 0 view .LVU1
+  34 0000 0346     		mov	r3, r0
+  27:Cu_main/Cu_main.c **** 	int i=0;
+  35              		.loc 1 27 2 is_stmt 1 view .LVU2
+  36              	.LVL1:
+  28:Cu_main/Cu_main.c **** 	while (*buf++ != '\0') i++;
+  37              		.loc 1 28 2 view .LVU3
+  27:Cu_main/Cu_main.c **** 	int i=0;
+  38              		.loc 1 27 6 is_stmt 0 view .LVU4
+  39 0002 0020     		movs	r0, #0
+  40              	.LVL2:
+  41              		.loc 1 28 8 view .LVU5
+  42 0004 00E0     		b	.L2
+  43              	.LVL3:
+  44              	.L3:
+  45              		.loc 1 28 25 is_stmt 1 discriminator 2 view .LVU6
+  46              		.loc 1 28 26 is_stmt 0 discriminator 2 view .LVU7
+  47 0006 0130     		adds	r0, r0, #1
+  48              	.LVL4:
+  49              	.L2:
+  50              		.loc 1 28 16 is_stmt 1 discriminator 1 view .LVU8
+  51              		.loc 1 28 9 is_stmt 0 discriminator 1 view .LVU9
+  52 0008 13F8012B 		ldrb	r2, [r3], #1	@ zero_extendqisi2
+  53              	.LVL5:
+  54              		.loc 1 28 16 discriminator 1 view .LVU10
+  55 000c 002A     		cmp	r2, #0
+  56 000e FAD1     		bne	.L3
+  29:Cu_main/Cu_main.c **** 	return i;
+  57              		.loc 1 29 2 is_stmt 1 view .LVU11
+  30:Cu_main/Cu_main.c **** }
+  58              		.loc 1 30 1 is_stmt 0 view .LVU12
+  59 0010 7047     		bx	lr
+  60              		.cfi_endproc
+  61              	.LFE68:
+  63              		.section	.text.clear_buffer,"ax",%progbits
+  64              		.align	1
+  65              		.global	clear_buffer
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	clear_buffer:
+  71              	.LFB69:
+  31:Cu_main/Cu_main.c **** 
+  32:Cu_main/Cu_main.c **** void clear_buffer () {
+  72              		.loc 1 32 22 is_stmt 1 view -0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		@ link register save eliminated.
+  33:Cu_main/Cu_main.c **** 	for (int i=0; i<BUFFER_SIZE; i++) buffer[i] = '\0';
+  77              		.loc 1 33 2 view .LVU14
+  78              	.LBB2:
+  79              		.loc 1 33 7 view .LVU15
+  80              	.LVL6:
+  81              		.loc 1 33 11 is_stmt 0 view .LVU16
+  82 0000 0023     		movs	r3, #0
+  83              		.loc 1 33 2 view .LVU17
+ARM GAS  /tmp/ccmFCbuH.s 			page 3
+
+
+  84 0002 03E0     		b	.L5
+  85              	.LVL7:
+  86              	.L6:
+  87              		.loc 1 33 36 is_stmt 1 discriminator 3 view .LVU18
+  88              		.loc 1 33 46 is_stmt 0 discriminator 3 view .LVU19
+  89 0004 034A     		ldr	r2, .L7
+  90 0006 0021     		movs	r1, #0
+  91 0008 D154     		strb	r1, [r2, r3]
+  92              		.loc 1 33 32 is_stmt 1 discriminator 3 view .LVU20
+  93 000a 0133     		adds	r3, r3, #1
+  94              	.LVL8:
+  95              	.L5:
+  96              		.loc 1 33 17 discriminator 1 view .LVU21
+  97 000c 7F2B     		cmp	r3, #127
+  98 000e F9DD     		ble	.L6
+  99              	.LBE2:
+  34:Cu_main/Cu_main.c **** }
+ 100              		.loc 1 34 1 is_stmt 0 view .LVU22
+ 101 0010 7047     		bx	lr
+ 102              	.L8:
+ 103 0012 00BF     		.align	2
+ 104              	.L7:
+ 105 0014 00000000 		.word	buffer
+ 106              		.cfi_endproc
+ 107              	.LFE69:
+ 109              		.section	.text.myprintf,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	myprintf
+ 112              		.syntax unified
+ 113              		.thumb
+ 114              		.thumb_func
+ 116              	myprintf:
+ 117              	.LVL9:
+ 118              	.LFB70:
+  35:Cu_main/Cu_main.c **** 
+  36:Cu_main/Cu_main.c **** void myprintf (char *string)
+  37:Cu_main/Cu_main.c **** {
+ 119              		.loc 1 37 1 is_stmt 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		.loc 1 37 1 is_stmt 0 view .LVU24
+ 124 0000 10B5     		push	{r4, lr}
+ 125              	.LCFI0:
+ 126              		.cfi_def_cfa_offset 8
+ 127              		.cfi_offset 4, -8
+ 128              		.cfi_offset 14, -4
+ 129 0002 0446     		mov	r4, r0
+  38:Cu_main/Cu_main.c **** 	uint8_t len = strlen (string);
+ 130              		.loc 1 38 2 is_stmt 1 view .LVU25
+ 131              		.loc 1 38 16 is_stmt 0 view .LVU26
+ 132 0004 FFF7FEFF 		bl	strlen
+ 133              	.LVL10:
+  39:Cu_main/Cu_main.c **** 	HAL_UART_Transmit(&huart1, (uint8_t *) string, len, HAL_MAX_DELAY);  // transmit in blocking mode
+ 134              		.loc 1 39 2 is_stmt 1 view .LVU27
+ 135 0008 4FF0FF33 		mov	r3, #-1
+ 136 000c C2B2     		uxtb	r2, r0
+ARM GAS  /tmp/ccmFCbuH.s 			page 4
+
+
+ 137 000e 2146     		mov	r1, r4
+ 138 0010 0148     		ldr	r0, .L11
+ 139              	.LVL11:
+ 140              		.loc 1 39 2 is_stmt 0 view .LVU28
+ 141 0012 FFF7FEFF 		bl	HAL_UART_Transmit
+ 142              	.LVL12:
+  40:Cu_main/Cu_main.c **** }
+ 143              		.loc 1 40 1 view .LVU29
+ 144 0016 10BD     		pop	{r4, pc}
+ 145              	.LVL13:
+ 146              	.L12:
+ 147              		.loc 1 40 1 view .LVU30
+ 148              		.align	2
+ 149              	.L11:
+ 150 0018 00000000 		.word	huart1
+ 151              		.cfi_endproc
+ 152              	.LFE70:
+ 154              		.section	.text.open_append,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	open_append
+ 157              		.syntax unified
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	open_append:
+ 162              	.LVL14:
+ 163              	.LFB71:
+  41:Cu_main/Cu_main.c **** 
+  42:Cu_main/Cu_main.c **** FRESULT open_append (
+  43:Cu_main/Cu_main.c ****     FIL* fp,            /* [OUT] File object to create */
+  44:Cu_main/Cu_main.c ****     const char* path    /* [IN]  File name to be opened */
+  45:Cu_main/Cu_main.c **** )
+  46:Cu_main/Cu_main.c **** {
+ 164              		.loc 1 46 1 is_stmt 1 view -0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              		.loc 1 46 1 is_stmt 0 view .LVU32
+ 169 0000 38B5     		push	{r3, r4, r5, lr}
+ 170              	.LCFI1:
+ 171              		.cfi_def_cfa_offset 16
+ 172              		.cfi_offset 3, -16
+ 173              		.cfi_offset 4, -12
+ 174              		.cfi_offset 5, -8
+ 175              		.cfi_offset 14, -4
+ 176 0002 0446     		mov	r4, r0
+  47:Cu_main/Cu_main.c ****     FRESULT fr;
+ 177              		.loc 1 47 5 is_stmt 1 view .LVU33
+  48:Cu_main/Cu_main.c **** 
+  49:Cu_main/Cu_main.c ****     /* Opens an existing file. If not exist, creates a new file. */
+  50:Cu_main/Cu_main.c ****     fr = f_open(fp, path, FA_WRITE | FA_OPEN_ALWAYS);
+ 178              		.loc 1 50 5 view .LVU34
+ 179              		.loc 1 50 10 is_stmt 0 view .LVU35
+ 180 0004 1222     		movs	r2, #18
+ 181 0006 FFF7FEFF 		bl	f_open
+ 182              	.LVL15:
+  51:Cu_main/Cu_main.c ****     if (fr == FR_OK) {
+ 183              		.loc 1 51 5 is_stmt 1 view .LVU36
+ARM GAS  /tmp/ccmFCbuH.s 			page 5
+
+
+ 184              		.loc 1 51 8 is_stmt 0 view .LVU37
+ 185 000a 0546     		mov	r5, r0
+ 186 000c 08B1     		cbz	r0, .L16
+ 187              	.LVL16:
+ 188              	.L14:
+  52:Cu_main/Cu_main.c ****         /* Seek to end of the file to append data */
+  53:Cu_main/Cu_main.c ****         fr = f_lseek(fp, f_size(fp));
+  54:Cu_main/Cu_main.c ****         if (fr != FR_OK)
+  55:Cu_main/Cu_main.c ****             f_close(fp);
+  56:Cu_main/Cu_main.c ****     }
+  57:Cu_main/Cu_main.c ****     return fr;
+ 189              		.loc 1 57 5 is_stmt 1 view .LVU38
+  58:Cu_main/Cu_main.c **** }
+ 190              		.loc 1 58 1 is_stmt 0 view .LVU39
+ 191 000e 2846     		mov	r0, r5
+ 192 0010 38BD     		pop	{r3, r4, r5, pc}
+ 193              	.LVL17:
+ 194              	.L16:
+  53:Cu_main/Cu_main.c ****         if (fr != FR_OK)
+ 195              		.loc 1 53 9 is_stmt 1 view .LVU40
+  53:Cu_main/Cu_main.c ****         if (fr != FR_OK)
+ 196              		.loc 1 53 14 is_stmt 0 view .LVU41
+ 197 0012 D4F80C14 		ldr	r1, [r4, #1036]
+ 198 0016 2046     		mov	r0, r4
+ 199              	.LVL18:
+  53:Cu_main/Cu_main.c ****         if (fr != FR_OK)
+ 200              		.loc 1 53 14 view .LVU42
+ 201 0018 FFF7FEFF 		bl	f_lseek
+ 202              	.LVL19:
+  54:Cu_main/Cu_main.c ****             f_close(fp);
+ 203              		.loc 1 54 9 is_stmt 1 view .LVU43
+  54:Cu_main/Cu_main.c ****             f_close(fp);
+ 204              		.loc 1 54 12 is_stmt 0 view .LVU44
+ 205 001c 0546     		mov	r5, r0
+ 206 001e 0028     		cmp	r0, #0
+ 207 0020 F5D0     		beq	.L14
+  55:Cu_main/Cu_main.c ****     }
+ 208              		.loc 1 55 13 is_stmt 1 view .LVU45
+ 209 0022 2046     		mov	r0, r4
+ 210              	.LVL20:
+  55:Cu_main/Cu_main.c ****     }
+ 211              		.loc 1 55 13 is_stmt 0 view .LVU46
+ 212 0024 FFF7FEFF 		bl	f_close
+ 213              	.LVL21:
+ 214 0028 F1E7     		b	.L14
+ 215              		.cfi_endproc
+ 216              	.LFE71:
+ 218              		.section	.rodata.Cu_main.str1.4,"aMS",%progbits,1
+ 219              		.align	2
+ 220              	.LC0:
+ 221 0000 0D0A7E20 		.ascii	"\015\012~ SD card demo by kiwih ~\015\012\015\012\000"
+ 221      53442063 
+ 221      61726420 
+ 221      64656D6F 
+ 221      20627920 
+ 222              		.align	2
+ 223              	.LC1:
+ARM GAS  /tmp/ccmFCbuH.s 			page 6
+
+
+ 224 0020 2F00     		.ascii	"/\000"
+ 225 0022 0000     		.align	2
+ 226              	.LC2:
+ 227 0024 4552524F 		.ascii	"ERROR!!! in mounting SD CARD...\012\012\000"
+ 227      52212121 
+ 227      20696E20 
+ 227      6D6F756E 
+ 227      74696E67 
+ 228 0046 0000     		.align	2
+ 229              	.LC3:
+ 230 0048 53442043 		.ascii	"SD CARD mounted successfully...\012\012\000"
+ 230      41524420 
+ 230      6D6F756E 
+ 230      74656420 
+ 230      73756363 
+ 231 006a 0000     		.align	2
+ 232              	.LC4:
+ 233 006c 25640D0A 		.ascii	"%d\015\012\000"
+ 233      00
+ 234 0071 000000   		.align	2
+ 235              	.LC5:
+ 236 0074 00       		.ascii	"\000"
+ 237 0075 000000   		.align	2
+ 238              	.LC6:
+ 239 0078 53442043 		.ascii	"SD CARD Total Size: \011%lu\012\000"
+ 239      41524420 
+ 239      546F7461 
+ 239      6C205369 
+ 239      7A653A20 
+ 240 0092 0000     		.align	2
+ 241              	.LC7:
+ 242 0094 53442043 		.ascii	"SD CARD Free Space: \011%lu\012\012\000"
+ 242      41524420 
+ 242      46726565 
+ 242      20537061 
+ 242      63653A20 
+ 243 00af 00       		.align	2
+ 244              	.LC8:
+ 245 00b0 74657374 		.ascii	"test.txt\000"
+ 245      2E747874 
+ 245      00
+ 246 00b9 000000   		.align	2
+ 247              	.LC9:
+ 248 00bc 54686973 		.ascii	"This data is from the FILE1.txt. And it was written"
+ 248      20646174 
+ 248      61206973 
+ 248      2066726F 
+ 248      6D207468 
+ 249 00ef 20757369 		.ascii	" using ...f_puts... \000"
+ 249      6E67202E 
+ 249      2E2E665F 
+ 249      70757473 
+ 249      2E2E2E20 
+ 250              		.align	2
+ 251              	.LC10:
+ 252 0104 66696C65 		.ascii	"file2.txt\000"
+ 252      322E7478 
+ARM GAS  /tmp/ccmFCbuH.s 			page 7
+
+
+ 252      7400
+ 253 010e 0000     		.align	2
+ 254              	.LC11:
+ 255 0110 54686973 		.ascii	"This is File2.txt, written using ...f_write... and "
+ 255      20697320 
+ 255      46696C65 
+ 255      322E7478 
+ 255      742C2077 
+ 256 0143 69742073 		.ascii	"it says Hello from Controllerstech\012\000"
+ 256      61797320 
+ 256      48656C6C 
+ 256      6F206672 
+ 256      6F6D2043 
+ 257 0167 00       		.align	2
+ 258              	.LC12:
+ 259 0168 46696C65 		.ascii	"File2.txt created and data is written\012\000"
+ 259      322E7478 
+ 259      74206372 
+ 259      65617465 
+ 259      6420616E 
+ 260 018f 00       		.align	2
+ 261              	.LC13:
+ 262 0190 66696C65 		.ascii	"file2.txt is open and the data is shown below\012\000"
+ 262      322E7478 
+ 262      74206973 
+ 262      206F7065 
+ 262      6E20616E 
+ 263 01bf 00       		.align	2
+ 264              	.LC14:
+ 265 01c0 0A0A00   		.ascii	"\012\012\000"
+ 266 01c3 00       		.align	2
+ 267              	.LC15:
+ 268 01c4 57656C63 		.ascii	"Welcome\015\012\000"
+ 268      6F6D650D 
+ 268      0A00
+ 269 01ce 0000     		.align	2
+ 270              	.LC16:
+ 271 01d0 63767425 		.ascii	"cvt%d.txt\000"
+ 271      642E7478 
+ 271      7400
+ 272 01da 0000     		.align	2
+ 273              	.LC17:
+ 274 01dc 25640925 		.ascii	"%d\011%d\011%d\011%d\015\012\000"
+ 274      64092564 
+ 274      0925640D 
+ 274      0A00
+ 275              		.section	.text.Cu_main,"ax",%progbits
+ 276              		.align	1
+ 277              		.global	Cu_main
+ 278              		.syntax unified
+ 279              		.thumb
+ 280              		.thumb_func
+ 282              	Cu_main:
+ 283              	.LFB72:
+  59:Cu_main/Cu_main.c **** 
+  60:Cu_main/Cu_main.c **** void Cu_main(){
+ 284              		.loc 1 60 15 is_stmt 1 view -0
+ARM GAS  /tmp/ccmFCbuH.s 			page 8
+
+
+ 285              		.cfi_startproc
+ 286              		@ args = 0, pretend = 0, frame = 144
+ 287              		@ frame_needed = 0, uses_anonymous_args = 0
+ 288 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 289              	.LCFI2:
+ 290              		.cfi_def_cfa_offset 24
+ 291              		.cfi_offset 4, -24
+ 292              		.cfi_offset 5, -20
+ 293              		.cfi_offset 6, -16
+ 294              		.cfi_offset 7, -12
+ 295              		.cfi_offset 8, -8
+ 296              		.cfi_offset 14, -4
+ 297 0004 A6B0     		sub	sp, sp, #152
+ 298              	.LCFI3:
+ 299              		.cfi_def_cfa_offset 176
+  61:Cu_main/Cu_main.c ****     myprintf("\r\n~ SD card demo by kiwih ~\r\n\r\n");
+ 300              		.loc 1 61 5 view .LVU48
+ 301 0006 9048     		ldr	r0, .L30
+ 302 0008 FFF7FEFF 		bl	myprintf
+ 303              	.LVL22:
+  62:Cu_main/Cu_main.c **** 
+  63:Cu_main/Cu_main.c ****     HAL_Delay(2000); //a short delay is important to let the SD card settle
+ 304              		.loc 1 63 5 view .LVU49
+ 305 000c 4FF4FA60 		mov	r0, #2000
+ 306 0010 FFF7FEFF 		bl	HAL_Delay
+ 307              	.LVL23:
+  64:Cu_main/Cu_main.c **** 
+  65:Cu_main/Cu_main.c ****     fresult = f_mount(&fs, "/", 1);
+ 308              		.loc 1 65 5 view .LVU50
+ 309              		.loc 1 65 15 is_stmt 0 view .LVU51
+ 310 0014 0122     		movs	r2, #1
+ 311 0016 8D49     		ldr	r1, .L30+4
+ 312 0018 8D48     		ldr	r0, .L30+8
+ 313 001a FFF7FEFF 		bl	f_mount
+ 314              	.LVL24:
+ 315              		.loc 1 65 13 discriminator 1 view .LVU52
+ 316 001e 8D4B     		ldr	r3, .L30+12
+ 317 0020 1870     		strb	r0, [r3]
+  66:Cu_main/Cu_main.c ****     if (fresult != FR_OK) 
+ 318              		.loc 1 66 5 is_stmt 1 view .LVU53
+ 319              		.loc 1 66 8 is_stmt 0 view .LVU54
+ 320 0022 0028     		cmp	r0, #0
+ 321 0024 00F0D580 		beq	.L18
+  67:Cu_main/Cu_main.c **** 	myprintf("ERROR!!! in mounting SD CARD...\n\n");
+ 322              		.loc 1 67 2 is_stmt 1 view .LVU55
+ 323 0028 8B48     		ldr	r0, .L30+16
+ 324 002a FFF7FEFF 		bl	myprintf
+ 325              	.LVL25:
+ 326              	.L19:
+  68:Cu_main/Cu_main.c ****     else myprintf("SD CARD mounted successfully...\n\n");
+  69:Cu_main/Cu_main.c **** 	sprintf(buffer, "%d\r\n", fresult);
+ 327              		.loc 1 69 2 view .LVU56
+ 328 002e 894E     		ldr	r6, .L30+12
+ 329 0030 8A4F     		ldr	r7, .L30+20
+ 330 0032 8B4C     		ldr	r4, .L30+24
+ 331 0034 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 332 0036 3946     		mov	r1, r7
+ARM GAS  /tmp/ccmFCbuH.s 			page 9
+
+
+ 333 0038 2046     		mov	r0, r4
+ 334 003a FFF7FEFF 		bl	sprintf
+ 335              	.LVL26:
+  70:Cu_main/Cu_main.c **** 	myprintf(buffer);
+ 336              		.loc 1 70 2 view .LVU57
+ 337 003e 2046     		mov	r0, r4
+ 338 0040 FFF7FEFF 		bl	myprintf
+ 339              	.LVL27:
+  71:Cu_main/Cu_main.c **** 	clear_buffer();
+ 340              		.loc 1 71 2 view .LVU58
+ 341 0044 FFF7FEFF 		bl	clear_buffer
+ 342              	.LVL28:
+  72:Cu_main/Cu_main.c **** 
+  73:Cu_main/Cu_main.c **** 
+  74:Cu_main/Cu_main.c ****     f_getfree("", &fre_clust, &pfs);
+ 343              		.loc 1 74 5 view .LVU59
+ 344 0048 864D     		ldr	r5, .L30+28
+ 345 004a DFF81C82 		ldr	r8, .L30+32
+ 346 004e 2A46     		mov	r2, r5
+ 347 0050 4146     		mov	r1, r8
+ 348 0052 8648     		ldr	r0, .L30+36
+ 349 0054 FFF7FEFF 		bl	f_getfree
+ 350              	.LVL29:
+  75:Cu_main/Cu_main.c **** 
+  76:Cu_main/Cu_main.c ****   	total = (uint32_t)((pfs->n_fatent - 2) * pfs->csize * 0.5);
+ 351              		.loc 1 76 4 view .LVU60
+ 352              		.loc 1 76 27 is_stmt 0 view .LVU61
+ 353 0058 2A68     		ldr	r2, [r5]
+ 354 005a D2F81434 		ldr	r3, [r2, #1044]
+ 355              		.loc 1 76 38 view .LVU62
+ 356 005e 023B     		subs	r3, r3, #2
+ 357              		.loc 1 76 48 view .LVU63
+ 358 0060 92F80204 		ldrb	r0, [r2, #1026]	@ zero_extendqisi2
+ 359              		.loc 1 76 56 view .LVU64
+ 360 0064 03FB00F0 		mul	r0, r3, r0
+ 361 0068 FFF7FEFF 		bl	__aeabi_ui2d
+ 362              	.LVL30:
+ 363 006c 0022     		movs	r2, #0
+ 364 006e 804B     		ldr	r3, .L30+40
+ 365 0070 FFF7FEFF 		bl	__aeabi_dmul
+ 366              	.LVL31:
+ 367              		.loc 1 76 12 view .LVU65
+ 368 0074 FFF7FEFF 		bl	__aeabi_d2uiz
+ 369              	.LVL32:
+ 370 0078 0246     		mov	r2, r0
+ 371              		.loc 1 76 10 view .LVU66
+ 372 007a 7E4B     		ldr	r3, .L30+44
+ 373 007c 1860     		str	r0, [r3]
+  77:Cu_main/Cu_main.c ****   	sprintf (buffer, "SD CARD Total Size: \t%lu\n",total);
+ 374              		.loc 1 77 4 is_stmt 1 view .LVU67
+ 375 007e 7E49     		ldr	r1, .L30+48
+ 376 0080 2046     		mov	r0, r4
+ 377 0082 FFF7FEFF 		bl	sprintf
+ 378              	.LVL33:
+  78:Cu_main/Cu_main.c ****   	myprintf(buffer);
+ 379              		.loc 1 78 4 view .LVU68
+ 380 0086 2046     		mov	r0, r4
+ARM GAS  /tmp/ccmFCbuH.s 			page 10
+
+
+ 381 0088 FFF7FEFF 		bl	myprintf
+ 382              	.LVL34:
+  79:Cu_main/Cu_main.c ****   	clear_buffer();
+ 383              		.loc 1 79 4 view .LVU69
+ 384 008c FFF7FEFF 		bl	clear_buffer
+ 385              	.LVL35:
+  80:Cu_main/Cu_main.c ****   	free_space = (uint32_t)(fre_clust * pfs->csize * 0.5);
+ 386              		.loc 1 80 4 view .LVU70
+ 387              		.loc 1 80 43 is_stmt 0 view .LVU71
+ 388 0090 2B68     		ldr	r3, [r5]
+ 389 0092 93F80234 		ldrb	r3, [r3, #1026]	@ zero_extendqisi2
+ 390              		.loc 1 80 38 view .LVU72
+ 391 0096 D8F80000 		ldr	r0, [r8]
+ 392              		.loc 1 80 51 view .LVU73
+ 393 009a 03FB00F0 		mul	r0, r3, r0
+ 394 009e FFF7FEFF 		bl	__aeabi_ui2d
+ 395              	.LVL36:
+ 396 00a2 0022     		movs	r2, #0
+ 397 00a4 724B     		ldr	r3, .L30+40
+ 398 00a6 FFF7FEFF 		bl	__aeabi_dmul
+ 399              	.LVL37:
+ 400              		.loc 1 80 17 view .LVU74
+ 401 00aa FFF7FEFF 		bl	__aeabi_d2uiz
+ 402              	.LVL38:
+ 403 00ae 0246     		mov	r2, r0
+ 404              		.loc 1 80 15 view .LVU75
+ 405 00b0 724B     		ldr	r3, .L30+52
+ 406 00b2 1860     		str	r0, [r3]
+  81:Cu_main/Cu_main.c ****   	sprintf (buffer, "SD CARD Free Space: \t%lu\n\n",free_space);
+ 407              		.loc 1 81 4 is_stmt 1 view .LVU76
+ 408 00b4 7249     		ldr	r1, .L30+56
+ 409 00b6 2046     		mov	r0, r4
+ 410 00b8 FFF7FEFF 		bl	sprintf
+ 411              	.LVL39:
+  82:Cu_main/Cu_main.c ****   	myprintf(buffer);
+ 412              		.loc 1 82 4 view .LVU77
+ 413 00bc 2046     		mov	r0, r4
+ 414 00be FFF7FEFF 		bl	myprintf
+ 415              	.LVL40:
+  83:Cu_main/Cu_main.c ****   	clear_buffer();
+ 416              		.loc 1 83 4 view .LVU78
+ 417 00c2 FFF7FEFF 		bl	clear_buffer
+ 418              	.LVL41:
+  84:Cu_main/Cu_main.c **** 
+  85:Cu_main/Cu_main.c ****     /************* The following operation is using PUTS and GETS *********************/
+  86:Cu_main/Cu_main.c **** 
+  87:Cu_main/Cu_main.c ****   	/* Open file to write/ create a file if it doesn't exist */
+  88:Cu_main/Cu_main.c ****     fresult = open_append(&fil, "test.txt");
+ 419              		.loc 1 88 5 view .LVU79
+ 420              		.loc 1 88 15 is_stmt 0 view .LVU80
+ 421 00c6 6F4D     		ldr	r5, .L30+60
+ 422 00c8 6F49     		ldr	r1, .L30+64
+ 423 00ca 2846     		mov	r0, r5
+ 424 00cc FFF7FEFF 		bl	open_append
+ 425              	.LVL42:
+ 426 00d0 0246     		mov	r2, r0
+ 427              		.loc 1 88 13 discriminator 1 view .LVU81
+ARM GAS  /tmp/ccmFCbuH.s 			page 11
+
+
+ 428 00d2 3070     		strb	r0, [r6]
+  89:Cu_main/Cu_main.c **** 	sprintf(buffer, "%d\r\n", fresult);
+ 429              		.loc 1 89 2 is_stmt 1 view .LVU82
+ 430 00d4 3946     		mov	r1, r7
+ 431 00d6 2046     		mov	r0, r4
+ 432 00d8 FFF7FEFF 		bl	sprintf
+ 433              	.LVL43:
+  90:Cu_main/Cu_main.c **** 	myprintf(buffer);
+ 434              		.loc 1 90 2 view .LVU83
+ 435 00dc 2046     		mov	r0, r4
+ 436 00de FFF7FEFF 		bl	myprintf
+ 437              	.LVL44:
+  91:Cu_main/Cu_main.c **** 	clear_buffer();
+ 438              		.loc 1 91 2 view .LVU84
+ 439 00e2 FFF7FEFF 		bl	clear_buffer
+ 440              	.LVL45:
+  92:Cu_main/Cu_main.c **** 
+  93:Cu_main/Cu_main.c ****   	/* Writing text */
+  94:Cu_main/Cu_main.c ****   	f_puts("This data is from the FILE1.txt. And it was written using ...f_puts... ", &fil);
+ 441              		.loc 1 94 4 view .LVU85
+ 442 00e6 2946     		mov	r1, r5
+ 443 00e8 6848     		ldr	r0, .L30+68
+ 444 00ea FFF7FEFF 		bl	f_puts
+ 445              	.LVL46:
+  95:Cu_main/Cu_main.c **** 
+  96:Cu_main/Cu_main.c ****   	/* Close file */
+  97:Cu_main/Cu_main.c ****   	fresult = f_close(&fil);
+ 446              		.loc 1 97 4 view .LVU86
+ 447              		.loc 1 97 14 is_stmt 0 view .LVU87
+ 448 00ee 2846     		mov	r0, r5
+ 449 00f0 FFF7FEFF 		bl	f_close
+ 450              	.LVL47:
+ 451              		.loc 1 97 12 discriminator 1 view .LVU88
+ 452 00f4 3070     		strb	r0, [r6]
+  98:Cu_main/Cu_main.c **** 
+  99:Cu_main/Cu_main.c ****   	//if (fresult == FR_OK)myprintf ("File1.txt created and the data is written \n");
+ 100:Cu_main/Cu_main.c **** 
+ 101:Cu_main/Cu_main.c ****   	/* Open file to read */
+ 102:Cu_main/Cu_main.c ****   	//fresult = f_open(&fil, "file1.txt", FA_READ);
+ 103:Cu_main/Cu_main.c **** 
+ 104:Cu_main/Cu_main.c ****   	/* Read string from the file */
+ 105:Cu_main/Cu_main.c **** 	/*
+ 106:Cu_main/Cu_main.c ****   	f_gets(buffer, f_size(&fil), &fil);
+ 107:Cu_main/Cu_main.c **** 
+ 108:Cu_main/Cu_main.c ****   	myprintf("File1.txt is opened and it contains the data as shown below\n");
+ 109:Cu_main/Cu_main.c ****   	myprintf(buffer);
+ 110:Cu_main/Cu_main.c ****   	myprintf("\n\n");
+ 111:Cu_main/Cu_main.c **** 	*/
+ 112:Cu_main/Cu_main.c ****   	/* Close file */
+ 113:Cu_main/Cu_main.c ****   	//f_close(&fil);
+ 114:Cu_main/Cu_main.c **** 
+ 115:Cu_main/Cu_main.c ****   	//clear_buffer();
+ 116:Cu_main/Cu_main.c **** 
+ 117:Cu_main/Cu_main.c ****       	/**************** The following operation is using f_write and f_read **********************
+ 118:Cu_main/Cu_main.c **** 
+ 119:Cu_main/Cu_main.c ****   	/* Create second file with read write access and open it */
+ 120:Cu_main/Cu_main.c ****   	fresult = f_open(&fil, "file2.txt", FA_CREATE_ALWAYS | FA_WRITE);
+ARM GAS  /tmp/ccmFCbuH.s 			page 12
+
+
+ 453              		.loc 1 120 4 is_stmt 1 view .LVU89
+ 454              		.loc 1 120 14 is_stmt 0 view .LVU90
+ 455 00f6 DFF89881 		ldr	r8, .L30+72
+ 456 00fa 0A22     		movs	r2, #10
+ 457 00fc 4146     		mov	r1, r8
+ 458 00fe 2846     		mov	r0, r5
+ 459 0100 FFF7FEFF 		bl	f_open
+ 460              	.LVL48:
+ 461 0104 0246     		mov	r2, r0
+ 462              		.loc 1 120 12 discriminator 1 view .LVU91
+ 463 0106 3070     		strb	r0, [r6]
+ 121:Cu_main/Cu_main.c **** 	sprintf(buffer, "%d\r\n", fresult);
+ 464              		.loc 1 121 2 is_stmt 1 view .LVU92
+ 465 0108 3946     		mov	r1, r7
+ 466 010a 2046     		mov	r0, r4
+ 467 010c FFF7FEFF 		bl	sprintf
+ 468              	.LVL49:
+ 122:Cu_main/Cu_main.c **** 	myprintf(buffer);
+ 469              		.loc 1 122 2 view .LVU93
+ 470 0110 2046     		mov	r0, r4
+ 471 0112 FFF7FEFF 		bl	myprintf
+ 472              	.LVL50:
+ 123:Cu_main/Cu_main.c **** 	clear_buffer();
+ 473              		.loc 1 123 2 view .LVU94
+ 474 0116 FFF7FEFF 		bl	clear_buffer
+ 475              	.LVL51:
+ 124:Cu_main/Cu_main.c **** 
+ 125:Cu_main/Cu_main.c ****   	/* Writing text */
+ 126:Cu_main/Cu_main.c ****   	strcpy (buffer, "This is File2.txt, written using ...f_write... and it says Hello from Controlle
+ 476              		.loc 1 126 4 view .LVU95
+ 477 011a 5722     		movs	r2, #87
+ 478 011c 5D49     		ldr	r1, .L30+76
+ 479 011e 2046     		mov	r0, r4
+ 480 0120 FFF7FEFF 		bl	memcpy
+ 481              	.LVL52:
+ 127:Cu_main/Cu_main.c **** 
+ 128:Cu_main/Cu_main.c ****   	fresult = f_write(&fil, buffer, bufsize(buffer), &bw);
+ 482              		.loc 1 128 4 view .LVU96
+ 483              		.loc 1 128 36 is_stmt 0 view .LVU97
+ 484 0124 2046     		mov	r0, r4
+ 485 0126 FFF7FEFF 		bl	bufsize
+ 486              	.LVL53:
+ 487 012a 0246     		mov	r2, r0
+ 488              		.loc 1 128 14 discriminator 1 view .LVU98
+ 489 012c 5A4B     		ldr	r3, .L30+80
+ 490 012e 2146     		mov	r1, r4
+ 491 0130 2846     		mov	r0, r5
+ 492 0132 FFF7FEFF 		bl	f_write
+ 493              	.LVL54:
+ 494              		.loc 1 128 12 discriminator 2 view .LVU99
+ 495 0136 3070     		strb	r0, [r6]
+ 129:Cu_main/Cu_main.c **** 
+ 130:Cu_main/Cu_main.c ****   	myprintf ("File2.txt created and data is written\n");
+ 496              		.loc 1 130 4 is_stmt 1 view .LVU100
+ 497 0138 5848     		ldr	r0, .L30+84
+ 498 013a FFF7FEFF 		bl	myprintf
+ 499              	.LVL55:
+ARM GAS  /tmp/ccmFCbuH.s 			page 13
+
+
+ 131:Cu_main/Cu_main.c **** 
+ 132:Cu_main/Cu_main.c ****   	/* Close file */
+ 133:Cu_main/Cu_main.c ****   	f_close(&fil);
+ 500              		.loc 1 133 4 view .LVU101
+ 501 013e 2846     		mov	r0, r5
+ 502 0140 FFF7FEFF 		bl	f_close
+ 503              	.LVL56:
+ 134:Cu_main/Cu_main.c **** 
+ 135:Cu_main/Cu_main.c **** 
+ 136:Cu_main/Cu_main.c **** 
+ 137:Cu_main/Cu_main.c ****   	// clearing buffer to show that result obtained is from the file
+ 138:Cu_main/Cu_main.c ****   	clear_buffer();
+ 504              		.loc 1 138 4 view .LVU102
+ 505 0144 FFF7FEFF 		bl	clear_buffer
+ 506              	.LVL57:
+ 139:Cu_main/Cu_main.c **** 
+ 140:Cu_main/Cu_main.c ****   	/* Open second file to read */
+ 141:Cu_main/Cu_main.c ****   	fresult = f_open(&fil, "file2.txt", FA_READ);
+ 507              		.loc 1 141 4 view .LVU103
+ 508              		.loc 1 141 14 is_stmt 0 view .LVU104
+ 509 0148 0122     		movs	r2, #1
+ 510 014a 4146     		mov	r1, r8
+ 511 014c 2846     		mov	r0, r5
+ 512 014e FFF7FEFF 		bl	f_open
+ 513              	.LVL58:
+ 514              		.loc 1 141 12 discriminator 1 view .LVU105
+ 515 0152 3070     		strb	r0, [r6]
+ 142:Cu_main/Cu_main.c ****   	if (fresult == FR_OK)myprintf ("file2.txt is open and the data is shown below\n");
+ 516              		.loc 1 142 4 is_stmt 1 view .LVU106
+ 517              		.loc 1 142 7 is_stmt 0 view .LVU107
+ 518 0154 0028     		cmp	r0, #0
+ 519 0156 40D0     		beq	.L28
+ 520              	.L20:
+ 143:Cu_main/Cu_main.c **** 
+ 144:Cu_main/Cu_main.c ****   	/* Read data from the file
+ 145:Cu_main/Cu_main.c ****   	 * Please see the function details for the arguments */
+ 146:Cu_main/Cu_main.c ****   	f_read (&fil, buffer, f_size(&fil), &br);
+ 521              		.loc 1 146 4 is_stmt 1 view .LVU108
+ 522              		.loc 1 146 26 is_stmt 0 view .LVU109
+ 523 0158 4A4C     		ldr	r4, .L30+60
+ 524              		.loc 1 146 4 view .LVU110
+ 525 015a 414D     		ldr	r5, .L30+24
+ 526 015c 504B     		ldr	r3, .L30+88
+ 527 015e D4F80C24 		ldr	r2, [r4, #1036]
+ 528 0162 2946     		mov	r1, r5
+ 529 0164 2046     		mov	r0, r4
+ 530 0166 FFF7FEFF 		bl	f_read
+ 531              	.LVL59:
+ 147:Cu_main/Cu_main.c ****   	myprintf(buffer);
+ 532              		.loc 1 147 4 is_stmt 1 view .LVU111
+ 533 016a 2846     		mov	r0, r5
+ 534 016c FFF7FEFF 		bl	myprintf
+ 535              	.LVL60:
+ 148:Cu_main/Cu_main.c ****   	myprintf("\n\n");
+ 536              		.loc 1 148 4 view .LVU112
+ 537 0170 4C48     		ldr	r0, .L30+92
+ 538 0172 FFF7FEFF 		bl	myprintf
+ARM GAS  /tmp/ccmFCbuH.s 			page 14
+
+
+ 539              	.LVL61:
+ 149:Cu_main/Cu_main.c **** 
+ 150:Cu_main/Cu_main.c ****   	/* Close file */
+ 151:Cu_main/Cu_main.c ****   	f_close(&fil);
+ 540              		.loc 1 151 4 view .LVU113
+ 541 0176 2046     		mov	r0, r4
+ 542 0178 FFF7FEFF 		bl	f_close
+ 543              	.LVL62:
+ 152:Cu_main/Cu_main.c **** 
+ 153:Cu_main/Cu_main.c ****   	clear_buffer();
+ 544              		.loc 1 153 4 view .LVU114
+ 545 017c FFF7FEFF 		bl	clear_buffer
+ 546              	.LVL63:
+ 154:Cu_main/Cu_main.c **** 
+ 155:Cu_main/Cu_main.c **** 	uint16_t ids[] = {0x59D};
+ 547              		.loc 1 155 2 view .LVU115
+ 548              		.loc 1 155 11 is_stmt 0 view .LVU116
+ 549 0180 40F29D53 		movw	r3, #1437
+ 550 0184 ADF89430 		strh	r3, [sp, #148]	@ movhi
+ 156:Cu_main/Cu_main.c ****     CAN_Add_Filter_Discrete(&CAN, 1, ids);
+ 551              		.loc 1 156 5 is_stmt 1 view .LVU117
+ 552 0188 474C     		ldr	r4, .L30+96
+ 553 018a 25AA     		add	r2, sp, #148
+ 554 018c 0121     		movs	r1, #1
+ 555 018e 2046     		mov	r0, r4
+ 556 0190 FFF7FEFF 		bl	CAN_Add_Filter_Discrete
+ 557              	.LVL64:
+ 157:Cu_main/Cu_main.c ****     CAN_Start(&CAN, 0x40);
+ 558              		.loc 1 157 5 view .LVU118
+ 559 0194 4021     		movs	r1, #64
+ 560 0196 2046     		mov	r0, r4
+ 561 0198 FFF7FEFF 		bl	CAN_Start
+ 562              	.LVL65:
+ 158:Cu_main/Cu_main.c ****     uint16_t rpms[4] = {0};
+ 563              		.loc 1 158 5 view .LVU119
+ 564              		.loc 1 158 14 is_stmt 0 view .LVU120
+ 565 019c 0024     		movs	r4, #0
+ 566 019e 2394     		str	r4, [sp, #140]
+ 567 01a0 2494     		str	r4, [sp, #144]
+ 159:Cu_main/Cu_main.c **** 	myprintf("Welcome\r\n");
+ 568              		.loc 1 159 2 is_stmt 1 view .LVU121
+ 569 01a2 4248     		ldr	r0, .L30+100
+ 570 01a4 FFF7FEFF 		bl	myprintf
+ 571              	.LVL66:
+ 160:Cu_main/Cu_main.c **** 
+ 161:Cu_main/Cu_main.c **** 	char filename[BUFFER_SIZE];
+ 572              		.loc 1 161 2 view .LVU122
+ 162:Cu_main/Cu_main.c **** 	int done = 0;
+ 573              		.loc 1 162 2 view .LVU123
+ 163:Cu_main/Cu_main.c **** 	for(int i=0; i<255; i++){
+ 574              		.loc 1 163 2 view .LVU124
+ 575              	.LBB3:
+ 576              		.loc 1 163 6 view .LVU125
+ 577              	.L21:
+ 578              		.loc 1 163 16 discriminator 1 view .LVU126
+ 579 01a8 FE2C     		cmp	r4, #254
+ 580 01aa 20DC     		bgt	.L25
+ARM GAS  /tmp/ccmFCbuH.s 			page 15
+
+
+ 164:Cu_main/Cu_main.c **** 		sprintf(buffer, "cvt%d.txt", i);
+ 581              		.loc 1 164 3 view .LVU127
+ 582 01ac 2C4D     		ldr	r5, .L30+24
+ 583 01ae 2246     		mov	r2, r4
+ 584 01b0 3F49     		ldr	r1, .L30+104
+ 585 01b2 2846     		mov	r0, r5
+ 586 01b4 FFF7FEFF 		bl	sprintf
+ 587              	.LVL67:
+ 165:Cu_main/Cu_main.c **** 		fresult = f_stat(buffer, &fno);
+ 588              		.loc 1 165 3 view .LVU128
+ 589              		.loc 1 165 13 is_stmt 0 view .LVU129
+ 590 01b8 3E49     		ldr	r1, .L30+108
+ 591 01ba 2846     		mov	r0, r5
+ 592 01bc FFF7FEFF 		bl	f_stat
+ 593              	.LVL68:
+ 594              		.loc 1 165 11 discriminator 1 view .LVU130
+ 595 01c0 244B     		ldr	r3, .L30+12
+ 596 01c2 1870     		strb	r0, [r3]
+ 166:Cu_main/Cu_main.c **** 		switch (fresult){
+ 597              		.loc 1 166 3 is_stmt 1 view .LVU131
+ 598 01c4 0438     		subs	r0, r0, #4
+ 599 01c6 0128     		cmp	r0, #1
+ 600 01c8 0BD9     		bls	.L29
+ 167:Cu_main/Cu_main.c **** 		case FR_OK:
+ 168:Cu_main/Cu_main.c **** 			break;
+ 169:Cu_main/Cu_main.c **** 		
+ 170:Cu_main/Cu_main.c **** 		case FR_NO_FILE:
+ 171:Cu_main/Cu_main.c **** 		case FR_NO_PATH:
+ 172:Cu_main/Cu_main.c **** 			strcpy(filename, buffer);
+ 173:Cu_main/Cu_main.c **** 			done = 1;
+ 174:Cu_main/Cu_main.c **** 			break;
+ 175:Cu_main/Cu_main.c **** 
+ 176:Cu_main/Cu_main.c **** 		default:
+ 177:Cu_main/Cu_main.c **** 			break;
+ 178:Cu_main/Cu_main.c **** 		}
+ 179:Cu_main/Cu_main.c **** 		clear_buffer();
+ 601              		.loc 1 179 3 view .LVU132
+ 602 01ca FFF7FEFF 		bl	clear_buffer
+ 603              	.LVL69:
+ 180:Cu_main/Cu_main.c **** 		if(done) break;
+ 604              		.loc 1 180 3 view .LVU133
+ 163:Cu_main/Cu_main.c **** 		sprintf(buffer, "cvt%d.txt", i);
+ 605              		.loc 1 163 23 discriminator 2 view .LVU134
+ 606 01ce 0134     		adds	r4, r4, #1
+ 607              	.LVL70:
+ 163:Cu_main/Cu_main.c **** 		sprintf(buffer, "cvt%d.txt", i);
+ 608              		.loc 1 163 23 is_stmt 0 discriminator 2 view .LVU135
+ 609 01d0 EAE7     		b	.L21
+ 610              	.LVL71:
+ 611              	.L18:
+ 163:Cu_main/Cu_main.c **** 		sprintf(buffer, "cvt%d.txt", i);
+ 612              		.loc 1 163 23 discriminator 2 view .LVU136
+ 613              	.LBE3:
+  68:Cu_main/Cu_main.c **** 	sprintf(buffer, "%d\r\n", fresult);
+ 614              		.loc 1 68 10 is_stmt 1 view .LVU137
+ 615 01d2 3948     		ldr	r0, .L30+112
+ 616 01d4 FFF7FEFF 		bl	myprintf
+ARM GAS  /tmp/ccmFCbuH.s 			page 16
+
+
+ 617              	.LVL72:
+ 618 01d8 29E7     		b	.L19
+ 619              	.L28:
+ 142:Cu_main/Cu_main.c **** 
+ 620              		.loc 1 142 25 discriminator 1 view .LVU138
+ 621 01da 3848     		ldr	r0, .L30+116
+ 622 01dc FFF7FEFF 		bl	myprintf
+ 623              	.LVL73:
+ 624 01e0 BAE7     		b	.L20
+ 625              	.LVL74:
+ 626              	.L29:
+ 627              	.LBB4:
+ 172:Cu_main/Cu_main.c **** 			done = 1;
+ 628              		.loc 1 172 4 view .LVU139
+ 629 01e2 2946     		mov	r1, r5
+ 630 01e4 03A8     		add	r0, sp, #12
+ 631 01e6 FFF7FEFF 		bl	strcpy
+ 632              	.LVL75:
+ 173:Cu_main/Cu_main.c **** 			break;
+ 633              		.loc 1 173 4 view .LVU140
+ 174:Cu_main/Cu_main.c **** 
+ 634              		.loc 1 174 4 view .LVU141
+ 179:Cu_main/Cu_main.c **** 		if(done) break;
+ 635              		.loc 1 179 3 view .LVU142
+ 636 01ea FFF7FEFF 		bl	clear_buffer
+ 637              	.LVL76:
+ 638              		.loc 1 180 3 view .LVU143
+ 639              	.L25:
+ 640              		.loc 1 180 3 is_stmt 0 view .LVU144
+ 641              	.LBE4:
+ 181:Cu_main/Cu_main.c **** 
+ 182:Cu_main/Cu_main.c **** 	}
+ 183:Cu_main/Cu_main.c **** 
+ 184:Cu_main/Cu_main.c ****     while(1){
+ 642              		.loc 1 184 5 is_stmt 1 view .LVU145
+ 185:Cu_main/Cu_main.c ****         if(CAN_ISR_FLAG){
+ 643              		.loc 1 185 9 view .LVU146
+ 644              		.loc 1 185 12 is_stmt 0 view .LVU147
+ 645 01ee 344B     		ldr	r3, .L30+120
+ 646 01f0 1B68     		ldr	r3, [r3]
+ 647              		.loc 1 185 11 view .LVU148
+ 648 01f2 002B     		cmp	r3, #0
+ 649 01f4 FBD0     		beq	.L25
+ 186:Cu_main/Cu_main.c ****             CAN_Unpack_RX_2Byte(&CAN, 4, rpms);
+ 650              		.loc 1 186 13 is_stmt 1 view .LVU149
+ 651 01f6 23AA     		add	r2, sp, #140
+ 652 01f8 0421     		movs	r1, #4
+ 653 01fa 2B48     		ldr	r0, .L30+96
+ 654 01fc FFF7FEFF 		bl	CAN_Unpack_RX_2Byte
+ 655              	.LVL77:
+ 187:Cu_main/Cu_main.c **** 			fresult = open_append(&fil, filename);
+ 656              		.loc 1 187 4 view .LVU150
+ 657              		.loc 1 187 14 is_stmt 0 view .LVU151
+ 658 0200 204C     		ldr	r4, .L30+60
+ 659 0202 03A9     		add	r1, sp, #12
+ 660 0204 2046     		mov	r0, r4
+ 661 0206 FFF7FEFF 		bl	open_append
+ARM GAS  /tmp/ccmFCbuH.s 			page 17
+
+
+ 662              	.LVL78:
+ 663              		.loc 1 187 12 discriminator 1 view .LVU152
+ 664 020a 124B     		ldr	r3, .L30+12
+ 665 020c 1870     		strb	r0, [r3]
+ 188:Cu_main/Cu_main.c **** 			sprintf(buffer, "%d\t%d\t%d\t%d\r\n",rpms[0],rpms[1],rpms[2],rpms[3]);
+ 666              		.loc 1 188 4 is_stmt 1 view .LVU153
+ 667              		.loc 1 188 61 is_stmt 0 view .LVU154
+ 668 020e BDF89030 		ldrh	r3, [sp, #144]
+ 669              		.loc 1 188 69 view .LVU155
+ 670 0212 BDF89220 		ldrh	r2, [sp, #146]
+ 671              		.loc 1 188 4 view .LVU156
+ 672 0216 124D     		ldr	r5, .L30+24
+ 673 0218 0192     		str	r2, [sp, #4]
+ 674 021a 0093     		str	r3, [sp]
+ 675 021c BDF88E30 		ldrh	r3, [sp, #142]
+ 676 0220 BDF88C20 		ldrh	r2, [sp, #140]
+ 677 0224 2749     		ldr	r1, .L30+124
+ 678 0226 2846     		mov	r0, r5
+ 679 0228 FFF7FEFF 		bl	sprintf
+ 680              	.LVL79:
+ 189:Cu_main/Cu_main.c **** 			f_puts(buffer, &fil);
+ 681              		.loc 1 189 4 is_stmt 1 view .LVU157
+ 682 022c 2146     		mov	r1, r4
+ 683 022e 2846     		mov	r0, r5
+ 684 0230 FFF7FEFF 		bl	f_puts
+ 685              	.LVL80:
+ 190:Cu_main/Cu_main.c **** 			clear_buffer();
+ 686              		.loc 1 190 4 view .LVU158
+ 687 0234 FFF7FEFF 		bl	clear_buffer
+ 688              	.LVL81:
+ 191:Cu_main/Cu_main.c **** 			f_close(&fil);
+ 689              		.loc 1 191 4 view .LVU159
+ 690 0238 2046     		mov	r0, r4
+ 691 023a FFF7FEFF 		bl	f_close
+ 692              	.LVL82:
+ 192:Cu_main/Cu_main.c ****             CAN_ISR_FLAG = 0;
+ 693              		.loc 1 192 13 view .LVU160
+ 694              		.loc 1 192 26 is_stmt 0 view .LVU161
+ 695 023e 204B     		ldr	r3, .L30+120
+ 696 0240 0022     		movs	r2, #0
+ 697 0242 1A60     		str	r2, [r3]
+ 698 0244 D3E7     		b	.L25
+ 699              	.L31:
+ 700 0246 00BF     		.align	2
+ 701              	.L30:
+ 702 0248 00000000 		.word	.LC0
+ 703 024c 20000000 		.word	.LC1
+ 704 0250 00000000 		.word	fs
+ 705 0254 00000000 		.word	fresult
+ 706 0258 24000000 		.word	.LC2
+ 707 025c 6C000000 		.word	.LC4
+ 708 0260 00000000 		.word	buffer
+ 709 0264 00000000 		.word	pfs
+ 710 0268 00000000 		.word	fre_clust
+ 711 026c 74000000 		.word	.LC5
+ 712 0270 0000E03F 		.word	1071644672
+ 713 0274 00000000 		.word	total
+ARM GAS  /tmp/ccmFCbuH.s 			page 18
+
+
+ 714 0278 78000000 		.word	.LC6
+ 715 027c 00000000 		.word	free_space
+ 716 0280 94000000 		.word	.LC7
+ 717 0284 00000000 		.word	fil
+ 718 0288 B0000000 		.word	.LC8
+ 719 028c BC000000 		.word	.LC9
+ 720 0290 04010000 		.word	.LC10
+ 721 0294 10010000 		.word	.LC11
+ 722 0298 00000000 		.word	bw
+ 723 029c 68010000 		.word	.LC12
+ 724 02a0 00000000 		.word	br
+ 725 02a4 C0010000 		.word	.LC14
+ 726 02a8 00000000 		.word	CAN
+ 727 02ac C4010000 		.word	.LC15
+ 728 02b0 D0010000 		.word	.LC16
+ 729 02b4 00000000 		.word	fno
+ 730 02b8 48000000 		.word	.LC3
+ 731 02bc 90010000 		.word	.LC13
+ 732 02c0 00000000 		.word	CAN_ISR_FLAG
+ 733 02c4 DC010000 		.word	.LC17
+ 734              		.cfi_endproc
+ 735              	.LFE72:
+ 737              		.global	buffer
+ 738              		.section	.bss.buffer,"aw",%nobits
+ 739              		.align	2
+ 742              	buffer:
+ 743 0000 00000000 		.space	128
+ 743      00000000 
+ 743      00000000 
+ 743      00000000 
+ 743      00000000 
+ 744              		.global	free_space
+ 745              		.section	.bss.free_space,"aw",%nobits
+ 746              		.align	2
+ 749              	free_space:
+ 750 0000 00000000 		.space	4
+ 751              		.global	total
+ 752              		.section	.bss.total,"aw",%nobits
+ 753              		.align	2
+ 756              	total:
+ 757 0000 00000000 		.space	4
+ 758              		.global	fre_clust
+ 759              		.section	.bss.fre_clust,"aw",%nobits
+ 760              		.align	2
+ 763              	fre_clust:
+ 764 0000 00000000 		.space	4
+ 765              		.global	pfs
+ 766              		.section	.bss.pfs,"aw",%nobits
+ 767              		.align	2
+ 770              	pfs:
+ 771 0000 00000000 		.space	4
+ 772              		.global	bw
+ 773              		.section	.bss.bw,"aw",%nobits
+ 774              		.align	2
+ 777              	bw:
+ 778 0000 00000000 		.space	4
+ 779              		.global	br
+ARM GAS  /tmp/ccmFCbuH.s 			page 19
+
+
+ 780              		.section	.bss.br,"aw",%nobits
+ 781              		.align	2
+ 784              	br:
+ 785 0000 00000000 		.space	4
+ 786              		.global	fresult
+ 787              		.section	.bss.fresult,"aw",%nobits
+ 790              	fresult:
+ 791 0000 00       		.space	1
+ 792              		.global	fno
+ 793              		.section	.bss.fno,"aw",%nobits
+ 794              		.align	2
+ 797              	fno:
+ 798 0000 00000000 		.space	24
+ 798      00000000 
+ 798      00000000 
+ 798      00000000 
+ 798      00000000 
+ 799              		.global	fil
+ 800              		.section	.bss.fil,"aw",%nobits
+ 801              		.align	2
+ 804              	fil:
+ 805 0000 00000000 		.space	1068
+ 805      00000000 
+ 805      00000000 
+ 805      00000000 
+ 805      00000000 
+ 806              		.global	fs
+ 807              		.section	.bss.fs,"aw",%nobits
+ 808              		.align	2
+ 811              	fs:
+ 812 0000 00000000 		.space	1072
+ 812      00000000 
+ 812      00000000 
+ 812      00000000 
+ 812      00000000 
+ 813              		.global	CAN
+ 814              		.section	.bss.CAN,"aw",%nobits
+ 815              		.align	2
+ 818              	CAN:
+ 819 0000 00000000 		.space	72
+ 819      00000000 
+ 819      00000000 
+ 819      00000000 
+ 819      00000000 
+ 820              		.text
+ 821              	.Letext0:
+ 822              		.file 2 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 823              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
+ 824              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 825              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h"
+ 826              		.file 6 "/opt/gcc-arm/lib/gcc/arm-none-eabi/14.2.1/include/stddef.h"
+ 827              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 828              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 829              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h"
+ 830              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 831              		.file 11 "Libs/can_al/can_al.h"
+ 832              		.file 12 "Middlewares/Third_Party/FatFs/src/integer.h"
+ARM GAS  /tmp/ccmFCbuH.s 			page 20
+
+
+ 833              		.file 13 "Middlewares/Third_Party/FatFs/src/ff.h"
+ 834              		.file 14 "/opt/gcc-arm/arm-none-eabi/include/string.h"
+ 835              		.file 15 "/opt/gcc-arm/arm-none-eabi/include/stdio.h"
+ 836              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 837              		.file 17 "<built-in>"
+ARM GAS  /tmp/ccmFCbuH.s 			page 21
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Cu_main.c
+     /tmp/ccmFCbuH.s:19     .text.bufsize:00000000 $t
+     /tmp/ccmFCbuH.s:25     .text.bufsize:00000000 bufsize
+     /tmp/ccmFCbuH.s:64     .text.clear_buffer:00000000 $t
+     /tmp/ccmFCbuH.s:70     .text.clear_buffer:00000000 clear_buffer
+     /tmp/ccmFCbuH.s:105    .text.clear_buffer:00000014 $d
+     /tmp/ccmFCbuH.s:742    .bss.buffer:00000000 buffer
+     /tmp/ccmFCbuH.s:110    .text.myprintf:00000000 $t
+     /tmp/ccmFCbuH.s:116    .text.myprintf:00000000 myprintf
+     /tmp/ccmFCbuH.s:150    .text.myprintf:00000018 $d
+     /tmp/ccmFCbuH.s:155    .text.open_append:00000000 $t
+     /tmp/ccmFCbuH.s:161    .text.open_append:00000000 open_append
+     /tmp/ccmFCbuH.s:219    .rodata.Cu_main.str1.4:00000000 $d
+     /tmp/ccmFCbuH.s:276    .text.Cu_main:00000000 $t
+     /tmp/ccmFCbuH.s:282    .text.Cu_main:00000000 Cu_main
+     /tmp/ccmFCbuH.s:702    .text.Cu_main:00000248 $d
+     /tmp/ccmFCbuH.s:811    .bss.fs:00000000 fs
+     /tmp/ccmFCbuH.s:790    .bss.fresult:00000000 fresult
+     /tmp/ccmFCbuH.s:770    .bss.pfs:00000000 pfs
+     /tmp/ccmFCbuH.s:763    .bss.fre_clust:00000000 fre_clust
+     /tmp/ccmFCbuH.s:756    .bss.total:00000000 total
+     /tmp/ccmFCbuH.s:749    .bss.free_space:00000000 free_space
+     /tmp/ccmFCbuH.s:804    .bss.fil:00000000 fil
+     /tmp/ccmFCbuH.s:777    .bss.bw:00000000 bw
+     /tmp/ccmFCbuH.s:784    .bss.br:00000000 br
+     /tmp/ccmFCbuH.s:818    .bss.CAN:00000000 CAN
+     /tmp/ccmFCbuH.s:797    .bss.fno:00000000 fno
+     /tmp/ccmFCbuH.s:739    .bss.buffer:00000000 $d
+     /tmp/ccmFCbuH.s:746    .bss.free_space:00000000 $d
+     /tmp/ccmFCbuH.s:753    .bss.total:00000000 $d
+     /tmp/ccmFCbuH.s:760    .bss.fre_clust:00000000 $d
+     /tmp/ccmFCbuH.s:767    .bss.pfs:00000000 $d
+     /tmp/ccmFCbuH.s:774    .bss.bw:00000000 $d
+     /tmp/ccmFCbuH.s:781    .bss.br:00000000 $d
+     /tmp/ccmFCbuH.s:791    .bss.fresult:00000000 $d
+     /tmp/ccmFCbuH.s:794    .bss.fno:00000000 $d
+     /tmp/ccmFCbuH.s:801    .bss.fil:00000000 $d
+     /tmp/ccmFCbuH.s:808    .bss.fs:00000000 $d
+     /tmp/ccmFCbuH.s:815    .bss.CAN:00000000 $d
+
+UNDEFINED SYMBOLS
+strlen
+HAL_UART_Transmit
+huart1
+f_open
+f_lseek
+f_close
+HAL_Delay
+f_mount
+sprintf
+f_getfree
+__aeabi_ui2d
+__aeabi_dmul
+__aeabi_d2uiz
+f_puts
+memcpy
+ARM GAS  /tmp/ccmFCbuH.s 			page 22
+
+
+f_write
+f_read
+CAN_Add_Filter_Discrete
+CAN_Start
+f_stat
+strcpy
+CAN_Unpack_RX_2Byte
+CAN_ISR_FLAG
