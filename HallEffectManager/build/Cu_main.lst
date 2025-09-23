@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccoiUwcq.s 			page 1
+ARM GAS  /tmp/ccjn4Vtk.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -57,8 +57,8 @@ ARM GAS  /tmp/ccoiUwcq.s 			page 1
   42 0006 ADF80430 		strh	r3, [sp, #4]	@ movhi
   14:Cu_main/Cu_main.c ****     CAN_Add_Filter_Discrete(&CAN, 1, ids);
   43              		.loc 1 14 5 is_stmt 1 view .LVU3
-  44 000a 124C     		ldr	r4, .L5
-ARM GAS  /tmp/ccoiUwcq.s 			page 2
+  44 000a 164C     		ldr	r4, .L5
+ARM GAS  /tmp/ccjn4Vtk.s 			page 2
 
 
   45 000c 01AA     		add	r2, sp, #4
@@ -84,194 +84,207 @@ ARM GAS  /tmp/ccoiUwcq.s 			page 1
   62              	.LVL3:
   18:Cu_main/Cu_main.c ****     HAL_TIM_Base_Start(&htim1);
   63              		.loc 1 18 5 view .LVU7
-  64 002c 0A48     		ldr	r0, .L5+4
+  64 002c 0E48     		ldr	r0, .L5+4
   65 002e FFF7FEFF 		bl	HAL_TIM_Base_Start
   66              	.LVL4:
   19:Cu_main/Cu_main.c ****     HAL_TIM_Base_Start(&htim2);
   67              		.loc 1 19 5 view .LVU8
-  68 0032 0A48     		ldr	r0, .L5+8
+  68 0032 0E48     		ldr	r0, .L5+8
   69 0034 FFF7FEFF 		bl	HAL_TIM_Base_Start
   70              	.LVL5:
   20:Cu_main/Cu_main.c ****     HAL_TIM_Base_Start_IT(&htim3);
   71              		.loc 1 20 5 view .LVU9
-  72 0038 0948     		ldr	r0, .L5+12
+  72 0038 0D48     		ldr	r0, .L5+12
   73 003a FFF7FEFF 		bl	HAL_TIM_Base_Start_IT
   74              	.LVL6:
-  75              	.L2:
   21:Cu_main/Cu_main.c **** 
-  22:Cu_main/Cu_main.c ****     while(1){
-  76              		.loc 1 22 5 view .LVU10
-  23:Cu_main/Cu_main.c ****         if(RPM_EXTI_FLAG){
-  77              		.loc 1 23 9 view .LVU11
-  78              		.loc 1 23 12 is_stmt 0 view .LVU12
-  79 003e 094B     		ldr	r3, .L5+16
-  80 0040 1B68     		ldr	r3, [r3]
-  81              		.loc 1 23 11 view .LVU13
-  82 0042 002B     		cmp	r3, #0
-  83 0044 FBD0     		beq	.L2
-  24:Cu_main/Cu_main.c ****             RPM_Update();
-  84              		.loc 1 24 13 is_stmt 1 view .LVU14
-  85 0046 FFF7FEFF 		bl	RPM_Update
-  86              	.LVL7:
-  25:Cu_main/Cu_main.c ****             RPM_EXTI_FLAG = 0;
-  87              		.loc 1 25 13 view .LVU15
-  88              		.loc 1 25 27 is_stmt 0 view .LVU16
-  89 004a 064B     		ldr	r3, .L5+16
-  90 004c 0022     		movs	r2, #0
-ARM GAS  /tmp/ccoiUwcq.s 			page 3
+  22:Cu_main/Cu_main.c ****     RPM_set_pulses_per_rev(0, 1);
+  75              		.loc 1 22 5 view .LVU10
+  76 003e 0121     		movs	r1, #1
+  77 0040 0020     		movs	r0, #0
+  78 0042 FFF7FEFF 		bl	RPM_set_pulses_per_rev
+  79              	.LVL7:
+  23:Cu_main/Cu_main.c ****     RPM_set_pulses_per_rev(1, 4);
+  80              		.loc 1 23 5 view .LVU11
+  81 0046 0421     		movs	r1, #4
+  82 0048 0120     		movs	r0, #1
+  83 004a FFF7FEFF 		bl	RPM_set_pulses_per_rev
+  84              	.LVL8:
+  85              	.L2:
+  24:Cu_main/Cu_main.c **** 
+  25:Cu_main/Cu_main.c ****     while(1){
+  86              		.loc 1 25 5 view .LVU12
+  26:Cu_main/Cu_main.c ****         if(RPM_EXTI_FLAG){
+  87              		.loc 1 26 9 view .LVU13
+  88              		.loc 1 26 12 is_stmt 0 view .LVU14
+  89 004e 094B     		ldr	r3, .L5+16
+ARM GAS  /tmp/ccjn4Vtk.s 			page 3
 
 
-  91 004e 1A60     		str	r2, [r3]
-  92 0050 F5E7     		b	.L2
-  93              	.L6:
-  94 0052 00BF     		.align	2
-  95              	.L5:
-  96 0054 00000000 		.word	CAN
-  97 0058 00000000 		.word	htim1
-  98 005c 00000000 		.word	htim2
-  99 0060 00000000 		.word	htim3
- 100 0064 00000000 		.word	RPM_EXTI_FLAG
- 101              		.cfi_endproc
- 102              	.LFE65:
- 104              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
- 105              		.align	1
- 106              		.global	HAL_TIM_PeriodElapsedCallback
- 107              		.syntax unified
- 108              		.thumb
- 109              		.thumb_func
- 111              	HAL_TIM_PeriodElapsedCallback:
- 112              	.LVL8:
- 113              	.LFB66:
-  26:Cu_main/Cu_main.c ****         }
-  27:Cu_main/Cu_main.c ****     }
-  28:Cu_main/Cu_main.c **** }
-  29:Cu_main/Cu_main.c **** 
-  30:Cu_main/Cu_main.c **** 
-  31:Cu_main/Cu_main.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
- 114              		.loc 1 31 60 is_stmt 1 view -0
- 115              		.cfi_startproc
- 116              		@ args = 0, pretend = 0, frame = 0
- 117              		@ frame_needed = 0, uses_anonymous_args = 0
+  90 0050 1B68     		ldr	r3, [r3]
+  91              		.loc 1 26 11 view .LVU15
+  92 0052 002B     		cmp	r3, #0
+  93 0054 FBD0     		beq	.L2
+  27:Cu_main/Cu_main.c ****             RPM_Update();
+  94              		.loc 1 27 13 is_stmt 1 view .LVU16
+  95 0056 FFF7FEFF 		bl	RPM_Update
+  96              	.LVL9:
+  28:Cu_main/Cu_main.c ****             RPM_EXTI_FLAG = 0;
+  97              		.loc 1 28 13 view .LVU17
+  98              		.loc 1 28 27 is_stmt 0 view .LVU18
+  99 005a 064B     		ldr	r3, .L5+16
+ 100 005c 0022     		movs	r2, #0
+ 101 005e 1A60     		str	r2, [r3]
+ 102 0060 F5E7     		b	.L2
+ 103              	.L6:
+ 104 0062 00BF     		.align	2
+ 105              	.L5:
+ 106 0064 00000000 		.word	CAN
+ 107 0068 00000000 		.word	htim1
+ 108 006c 00000000 		.word	htim2
+ 109 0070 00000000 		.word	htim3
+ 110 0074 00000000 		.word	RPM_EXTI_FLAG
+ 111              		.cfi_endproc
+ 112              	.LFE65:
+ 114              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 115              		.align	1
+ 116              		.global	HAL_TIM_PeriodElapsedCallback
+ 117              		.syntax unified
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	HAL_TIM_PeriodElapsedCallback:
+ 122              	.LVL10:
+ 123              	.LFB66:
+  29:Cu_main/Cu_main.c ****         }
+  30:Cu_main/Cu_main.c ****     }
+  31:Cu_main/Cu_main.c **** }
   32:Cu_main/Cu_main.c **** 
-  33:Cu_main/Cu_main.c ****     if(htim != &htim3) return;
- 118              		.loc 1 33 5 view .LVU18
- 119              		.loc 1 33 7 is_stmt 0 view .LVU19
- 120 0000 0C4B     		ldr	r3, .L14
- 121 0002 8342     		cmp	r3, r0
- 122 0004 00D0     		beq	.L13
- 123 0006 7047     		bx	lr
- 124              	.L13:
-  31:Cu_main/Cu_main.c **** 
- 125              		.loc 1 31 60 view .LVU20
- 126 0008 10B5     		push	{r4, lr}
- 127              	.LCFI2:
- 128              		.cfi_def_cfa_offset 8
- 129              		.cfi_offset 4, -8
- 130              		.cfi_offset 14, -4
+  33:Cu_main/Cu_main.c **** 
+  34:Cu_main/Cu_main.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
+ 124              		.loc 1 34 60 is_stmt 1 view -0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+  35:Cu_main/Cu_main.c **** 
+  36:Cu_main/Cu_main.c ****     if(htim != &htim3) return;
+ 128              		.loc 1 36 5 view .LVU20
+ 129              		.loc 1 36 7 is_stmt 0 view .LVU21
+ 130 0000 0C4B     		ldr	r3, .L14
+ 131 0002 8342     		cmp	r3, r0
+ 132 0004 00D0     		beq	.L13
+ 133 0006 7047     		bx	lr
+ 134              	.L13:
   34:Cu_main/Cu_main.c **** 
-  35:Cu_main/Cu_main.c ****     rpm_data[0] = rpms[0].current_rpm;
- 131              		.loc 1 35 5 is_stmt 1 view .LVU21
- 132              		.loc 1 35 26 is_stmt 0 view .LVU22
- 133 000a 0B4B     		ldr	r3, .L14+4
- 134 000c 1988     		ldrh	r1, [r3]
- 135              		.loc 1 35 17 view .LVU23
- 136 000e 0B4A     		ldr	r2, .L14+8
- 137 0010 1180     		strh	r1, [r2]	@ movhi
-  36:Cu_main/Cu_main.c ****     rpm_data[1] = rpms[1].current_rpm;
-ARM GAS  /tmp/ccoiUwcq.s 			page 4
+ 135              		.loc 1 34 60 view .LVU22
+ 136 0008 10B5     		push	{r4, lr}
+ 137              	.LCFI2:
+ARM GAS  /tmp/ccjn4Vtk.s 			page 4
 
 
- 138              		.loc 1 36 5 is_stmt 1 view .LVU24
- 139              		.loc 1 36 26 is_stmt 0 view .LVU25
- 140 0012 198A     		ldrh	r1, [r3, #16]
- 141              		.loc 1 36 17 view .LVU26
- 142 0014 5180     		strh	r1, [r2, #2]	@ movhi
-  37:Cu_main/Cu_main.c ****     rpm_data[2] = rpms[2].current_rpm;
- 143              		.loc 1 37 5 is_stmt 1 view .LVU27
- 144              		.loc 1 37 26 is_stmt 0 view .LVU28
- 145 0016 198C     		ldrh	r1, [r3, #32]
- 146              		.loc 1 37 17 view .LVU29
- 147 0018 9180     		strh	r1, [r2, #4]	@ movhi
-  38:Cu_main/Cu_main.c ****     rpm_data[3] = rpms[3].current_rpm;
- 148              		.loc 1 38 5 is_stmt 1 view .LVU30
- 149              		.loc 1 38 26 is_stmt 0 view .LVU31
- 150 001a 1B8E     		ldrh	r3, [r3, #48]
- 151              		.loc 1 38 17 view .LVU32
- 152 001c D380     		strh	r3, [r2, #6]	@ movhi
-  39:Cu_main/Cu_main.c **** 
-  40:Cu_main/Cu_main.c ****     CAN_Pack_TX_2Byte(&CAN, 4, rpm_data);
- 153              		.loc 1 40 5 is_stmt 1 view .LVU33
- 154 001e 084C     		ldr	r4, .L14+12
- 155 0020 0421     		movs	r1, #4
- 156 0022 2046     		mov	r0, r4
- 157              	.LVL9:
- 158              		.loc 1 40 5 is_stmt 0 view .LVU34
- 159 0024 FFF7FEFF 		bl	CAN_Pack_TX_2Byte
- 160              	.LVL10:
-  41:Cu_main/Cu_main.c **** 
-  42:Cu_main/Cu_main.c ****     CAN_Send(&CAN, 8);
- 161              		.loc 1 42 5 is_stmt 1 view .LVU35
- 162 0028 0821     		movs	r1, #8
- 163 002a 2046     		mov	r0, r4
- 164 002c FFF7FEFF 		bl	CAN_Send
- 165              	.LVL11:
-  43:Cu_main/Cu_main.c **** }
- 166              		.loc 1 43 1 is_stmt 0 view .LVU36
- 167 0030 10BD     		pop	{r4, pc}
- 168              	.L15:
- 169 0032 00BF     		.align	2
- 170              	.L14:
- 171 0034 00000000 		.word	htim3
- 172 0038 00000000 		.word	rpms
- 173 003c 00000000 		.word	rpm_data
- 174 0040 00000000 		.word	CAN
- 175              		.cfi_endproc
- 176              	.LFE66:
- 178              		.global	rpm_data
- 179              		.section	.bss.rpm_data,"aw",%nobits
- 180              		.align	2
- 183              	rpm_data:
- 184 0000 00000000 		.space	8
- 184      00000000 
- 185              		.global	CAN
- 186              		.section	.bss.CAN,"aw",%nobits
- 187              		.align	2
- 190              	CAN:
- 191 0000 00000000 		.space	72
-ARM GAS  /tmp/ccoiUwcq.s 			page 5
+ 138              		.cfi_def_cfa_offset 8
+ 139              		.cfi_offset 4, -8
+ 140              		.cfi_offset 14, -4
+  37:Cu_main/Cu_main.c **** 
+  38:Cu_main/Cu_main.c ****     rpm_data[0] = rpms[0].current_rpm;
+ 141              		.loc 1 38 5 is_stmt 1 view .LVU23
+ 142              		.loc 1 38 26 is_stmt 0 view .LVU24
+ 143 000a 0B4B     		ldr	r3, .L14+4
+ 144 000c 1988     		ldrh	r1, [r3]
+ 145              		.loc 1 38 17 view .LVU25
+ 146 000e 0B4A     		ldr	r2, .L14+8
+ 147 0010 1180     		strh	r1, [r2]	@ movhi
+  39:Cu_main/Cu_main.c ****     rpm_data[1] = rpms[1].current_rpm;
+ 148              		.loc 1 39 5 is_stmt 1 view .LVU26
+ 149              		.loc 1 39 26 is_stmt 0 view .LVU27
+ 150 0012 198A     		ldrh	r1, [r3, #16]
+ 151              		.loc 1 39 17 view .LVU28
+ 152 0014 5180     		strh	r1, [r2, #2]	@ movhi
+  40:Cu_main/Cu_main.c ****     rpm_data[2] = rpms[2].current_rpm;
+ 153              		.loc 1 40 5 is_stmt 1 view .LVU29
+ 154              		.loc 1 40 26 is_stmt 0 view .LVU30
+ 155 0016 198C     		ldrh	r1, [r3, #32]
+ 156              		.loc 1 40 17 view .LVU31
+ 157 0018 9180     		strh	r1, [r2, #4]	@ movhi
+  41:Cu_main/Cu_main.c ****     rpm_data[3] = rpms[3].current_rpm;
+ 158              		.loc 1 41 5 is_stmt 1 view .LVU32
+ 159              		.loc 1 41 26 is_stmt 0 view .LVU33
+ 160 001a 1B8E     		ldrh	r3, [r3, #48]
+ 161              		.loc 1 41 17 view .LVU34
+ 162 001c D380     		strh	r3, [r2, #6]	@ movhi
+  42:Cu_main/Cu_main.c **** 
+  43:Cu_main/Cu_main.c ****     CAN_Pack_TX_2Byte(&CAN, 4, rpm_data);
+ 163              		.loc 1 43 5 is_stmt 1 view .LVU35
+ 164 001e 084C     		ldr	r4, .L14+12
+ 165 0020 0421     		movs	r1, #4
+ 166 0022 2046     		mov	r0, r4
+ 167              	.LVL11:
+ 168              		.loc 1 43 5 is_stmt 0 view .LVU36
+ 169 0024 FFF7FEFF 		bl	CAN_Pack_TX_2Byte
+ 170              	.LVL12:
+  44:Cu_main/Cu_main.c **** 
+  45:Cu_main/Cu_main.c ****     CAN_Send(&CAN, 8);
+ 171              		.loc 1 45 5 is_stmt 1 view .LVU37
+ 172 0028 0821     		movs	r1, #8
+ 173 002a 2046     		mov	r0, r4
+ 174 002c FFF7FEFF 		bl	CAN_Send
+ 175              	.LVL13:
+  46:Cu_main/Cu_main.c **** }
+ 176              		.loc 1 46 1 is_stmt 0 view .LVU38
+ 177 0030 10BD     		pop	{r4, pc}
+ 178              	.L15:
+ 179 0032 00BF     		.align	2
+ 180              	.L14:
+ 181 0034 00000000 		.word	htim3
+ 182 0038 00000000 		.word	rpms
+ 183 003c 00000000 		.word	rpm_data
+ 184 0040 00000000 		.word	CAN
+ARM GAS  /tmp/ccjn4Vtk.s 			page 5
 
 
- 191      00000000 
- 191      00000000 
- 191      00000000 
- 191      00000000 
- 192              		.text
- 193              	.Letext0:
- 194              		.file 2 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
- 195              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
- 196              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 197              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h"
- 198              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 199              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 200              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h"
- 201              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
- 202              		.file 10 "Libs/can_al/can_al.h"
- 203              		.file 11 "Libs/rpm/rpm.h"
-ARM GAS  /tmp/ccoiUwcq.s 			page 6
+ 185              		.cfi_endproc
+ 186              	.LFE66:
+ 188              		.global	rpm_data
+ 189              		.section	.bss.rpm_data,"aw",%nobits
+ 190              		.align	2
+ 193              	rpm_data:
+ 194 0000 00000000 		.space	8
+ 194      00000000 
+ 195              		.global	CAN
+ 196              		.section	.bss.CAN,"aw",%nobits
+ 197              		.align	2
+ 200              	CAN:
+ 201 0000 00000000 		.space	72
+ 201      00000000 
+ 201      00000000 
+ 201      00000000 
+ 201      00000000 
+ 202              		.text
+ 203              	.Letext0:
+ 204              		.file 2 "/opt/gcc-arm/arm-none-eabi/include/machine/_default_types.h"
+ 205              		.file 3 "/opt/gcc-arm/arm-none-eabi/include/sys/_stdint.h"
+ 206              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 207              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h"
+ 208              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 209              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 210              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h"
+ 211              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 212              		.file 10 "Libs/can_al/can_al.h"
+ 213              		.file 11 "Libs/rpm/rpm.h"
+ARM GAS  /tmp/ccjn4Vtk.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 Cu_main.c
-     /tmp/ccoiUwcq.s:19     .text.Cu_main:00000000 $t
-     /tmp/ccoiUwcq.s:25     .text.Cu_main:00000000 Cu_main
-     /tmp/ccoiUwcq.s:96     .text.Cu_main:00000054 $d
-     /tmp/ccoiUwcq.s:190    .bss.CAN:00000000 CAN
-     /tmp/ccoiUwcq.s:105    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
-     /tmp/ccoiUwcq.s:111    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/ccoiUwcq.s:171    .text.HAL_TIM_PeriodElapsedCallback:00000034 $d
-     /tmp/ccoiUwcq.s:183    .bss.rpm_data:00000000 rpm_data
-     /tmp/ccoiUwcq.s:180    .bss.rpm_data:00000000 $d
-     /tmp/ccoiUwcq.s:187    .bss.CAN:00000000 $d
+     /tmp/ccjn4Vtk.s:19     .text.Cu_main:00000000 $t
+     /tmp/ccjn4Vtk.s:25     .text.Cu_main:00000000 Cu_main
+     /tmp/ccjn4Vtk.s:106    .text.Cu_main:00000064 $d
+     /tmp/ccjn4Vtk.s:200    .bss.CAN:00000000 CAN
+     /tmp/ccjn4Vtk.s:115    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+     /tmp/ccjn4Vtk.s:121    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccjn4Vtk.s:181    .text.HAL_TIM_PeriodElapsedCallback:00000034 $d
+     /tmp/ccjn4Vtk.s:193    .bss.rpm_data:00000000 rpm_data
+     /tmp/ccjn4Vtk.s:190    .bss.rpm_data:00000000 $d
+     /tmp/ccjn4Vtk.s:197    .bss.CAN:00000000 $d
 
 UNDEFINED SYMBOLS
 CAN_Add_Filter_Discrete
@@ -280,6 +293,7 @@ RPM_Init
 CAN_Send
 HAL_TIM_Base_Start
 HAL_TIM_Base_Start_IT
+RPM_set_pulses_per_rev
 RPM_Update
 htim1
 htim2

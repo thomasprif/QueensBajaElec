@@ -19,6 +19,9 @@ void Cu_main(){
     HAL_TIM_Base_Start(&htim2);
     HAL_TIM_Base_Start_IT(&htim3);
 
+    RPM_set_pulses_per_rev(0, 1);
+    RPM_set_pulses_per_rev(1, 4);
+
     while(1){
         if(RPM_EXTI_FLAG){
             RPM_Update();

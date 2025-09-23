@@ -2,6 +2,7 @@
 
 int CAN_ISR_FLAG = 0;
 CAN_ConnectionTypeDef* Lib_CAN_Connection_ptr;
+HAL_StatusTypeDef res;
 
 /**
  * @brief  Defines the HAL Callback Function. 
@@ -28,16 +29,18 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* canh){
  * @param CAN_Connection Pointer the CAN_ConnectionTypeDef to start
  * @param id Node's id
  */
-void CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id){
+HAL_StatusTypeDef CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id){
 
     CAN_Connection->TxDataHeader.IDE = CAN_ID_STD;
     CAN_Connection->TxDataHeader.StdId = id;
     CAN_Connection->TxDataHeader.RTR = CAN_RTR_DATA;
   
-    HAL_CAN_Start(&hcan);
+    res = HAL_CAN_Start(&hcan);
   
     Lib_CAN_Connection_ptr = CAN_Connection;
     HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+
+    return res;
 }
 
 
@@ -63,7 +66,7 @@ void CAN_Send(CAN_ConnectionTypeDef* CAN_Connection, int length){
  * @param length Length of ids array
  * @param ids Array of 11-bit CAN identifiers
  */
-void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* ids){
+HAL_StatusTypeDef CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* ids){
     int ids_left = length;
   
     CAN_FilterTypeDef CAN_Filter_Config;
@@ -89,7 +92,8 @@ void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, 
       if (ids_left-- > 0)
         CAN_Filter_Config.FilterMaskIdLow = (ids[4*i + 3] << 5);
   
-      HAL_CAN_ConfigFilter(&hcan, &CAN_Filter_Config);
+      res = HAL_CAN_ConfigFilter(&hcan, &CAN_Filter_Config);
+      return res;
     }
   }
 

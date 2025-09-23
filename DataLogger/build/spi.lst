@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccm5qo6t.s 			page 1
+ARM GAS  /tmp/ccmspeuP.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
   30:Core/Src/spi.c **** void MX_SPI1_Init(void)
   31:Core/Src/spi.c **** {
   27              		.loc 1 31 1 view -0
-ARM GAS  /tmp/ccm5qo6t.s 			page 2
+ARM GAS  /tmp/ccmspeuP.s 			page 2
 
 
   28              		.cfi_startproc
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
   48:Core/Src/spi.c ****   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   66              		.loc 1 48 3 is_stmt 1 view .LVU17
   67              		.loc 1 48 23 is_stmt 0 view .LVU18
-ARM GAS  /tmp/ccm5qo6t.s 			page 3
+ARM GAS  /tmp/ccmspeuP.s 			page 3
 
 
   68 0022 0362     		str	r3, [r0, #32]
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
  111              	.LFB66:
   61:Core/Src/spi.c **** 
   62:Core/Src/spi.c **** void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
-ARM GAS  /tmp/ccm5qo6t.s 			page 4
+ARM GAS  /tmp/ccmspeuP.s 			page 4
 
 
   63:Core/Src/spi.c **** {
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
   87:Core/Src/spi.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
   88:Core/Src/spi.c ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   89:Core/Src/spi.c **** 
-ARM GAS  /tmp/ccm5qo6t.s 			page 5
+ARM GAS  /tmp/ccmspeuP.s 			page 5
 
 
   90:Core/Src/spi.c ****   /* USER CODE BEGIN SPI1_MspInit 1 */
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
  180              		.loc 1 74 5 view .LVU49
  181 0040 019B     		ldr	r3, [sp, #4]
  182              	.LBE3:
-ARM GAS  /tmp/ccm5qo6t.s 			page 6
+ARM GAS  /tmp/ccmspeuP.s 			page 6
 
 
   74:Core/Src/spi.c ****     /**SPI1 GPIO Configuration
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
  221              		.loc 1 94 1 is_stmt 0 view .LVU66
  222 006c D3E7     		b	.L7
  223              	.L12:
-ARM GAS  /tmp/ccm5qo6t.s 			page 7
+ARM GAS  /tmp/ccmspeuP.s 			page 7
 
 
  224 006e 00BF     		.align	2
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
  115:Core/Src/spi.c **** 
  116:Core/Src/spi.c ****   /* USER CODE END SPI1_MspDeInit 1 */
  117:Core/Src/spi.c ****   }
-ARM GAS  /tmp/ccm5qo6t.s 			page 8
+ARM GAS  /tmp/ccmspeuP.s 			page 8
 
 
  118:Core/Src/spi.c **** }
@@ -471,22 +471,22 @@ ARM GAS  /tmp/ccm5qo6t.s 			page 1
  302              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
  303              		.file 9 "Core/Inc/spi.h"
  304              		.file 10 "Core/Inc/main.h"
-ARM GAS  /tmp/ccm5qo6t.s 			page 9
+ARM GAS  /tmp/ccmspeuP.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 spi.c
-     /tmp/ccm5qo6t.s:19     .text.MX_SPI1_Init:00000000 $t
-     /tmp/ccm5qo6t.s:25     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
-     /tmp/ccm5qo6t.s:97     .text.MX_SPI1_Init:0000003c $d
-     /tmp/ccm5qo6t.s:292    .bss.hspi1:00000000 hspi1
-     /tmp/ccm5qo6t.s:103    .text.HAL_SPI_MspInit:00000000 $t
-     /tmp/ccm5qo6t.s:109    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
-     /tmp/ccm5qo6t.s:226    .text.HAL_SPI_MspInit:00000070 $d
-     /tmp/ccm5qo6t.s:232    .text.HAL_SPI_MspDeInit:00000000 $t
-     /tmp/ccm5qo6t.s:238    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
-     /tmp/ccm5qo6t.s:281    .text.HAL_SPI_MspDeInit:00000020 $d
-     /tmp/ccm5qo6t.s:289    .bss.hspi1:00000000 $d
+     /tmp/ccmspeuP.s:19     .text.MX_SPI1_Init:00000000 $t
+     /tmp/ccmspeuP.s:25     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
+     /tmp/ccmspeuP.s:97     .text.MX_SPI1_Init:0000003c $d
+     /tmp/ccmspeuP.s:292    .bss.hspi1:00000000 hspi1
+     /tmp/ccmspeuP.s:103    .text.HAL_SPI_MspInit:00000000 $t
+     /tmp/ccmspeuP.s:109    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
+     /tmp/ccmspeuP.s:226    .text.HAL_SPI_MspInit:00000070 $d
+     /tmp/ccmspeuP.s:232    .text.HAL_SPI_MspDeInit:00000000 $t
+     /tmp/ccmspeuP.s:238    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
+     /tmp/ccmspeuP.s:281    .text.HAL_SPI_MspDeInit:00000020 $d
+     /tmp/ccmspeuP.s:289    .bss.hspi1:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init
