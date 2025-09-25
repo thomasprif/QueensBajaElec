@@ -49,7 +49,9 @@ void Cu_main(){
 		Debug_print("BA,SM,data Directory Already Exists,JA\r\n");
 	}
 
-	SD_get_filename(filename);
+	//SD_get_filename(filename);
+	sprintf(filename, "test.txt");
+
 
 	HAL_TIM_Base_Start_IT(&htim1);
 
@@ -68,27 +70,30 @@ void Cu_main(){
 					RxFrame.data[0]*256 + RxFrame.data[1], RxFrame.data[2]*256 + RxFrame.data[3],
 					RxFrame.data[4]*256 + RxFrame.data[5], RxFrame.data[6]*256 + RxFrame.data[7]);
 			f_puts(buffer, &fil);
+			Debug_print(buffer);
 			clear_buffer();
             CAN_ISR_FLAG = 0;
         }
 
 		if(SD_SAVE_ISR_FLAG){
 			f_sync(&fil);
-			Debug_print("BA,SM,Data Saved,JA\r\n");
+			//Debug_print("BA,SM,Data Saved,JA\r\n");
 			SD_SAVE_ISR_FLAG = 0;
 		}
 
 		if(SD_REQUEST_DATA_ISR_FLAG){
-			uint8_t file_buffer[1024];
+			HAL_TIM_Base_Stop_IT(&htim1);
+			SD_SAVE_ISR_FLAG = 0;
+			uint8_t file_buffer[8192];
 			UINT bytesRead;
 			f_close(&fil);
 			f_open(&fil, filename, FA_READ);
-			uint32_t file_size = f_size(&fil);
+			DWORD file_size = f_size(&fil);
+			HAL_UART_Transmit(&huart1, (uint8_t*)&file_size, sizeof(DWORD), HAL_MAX_DELAY);
 			HAL_UART_Transmit(&huart1, (uint8_t *)"START\n", 6, HAL_MAX_DELAY);
-			HAL_UART_Transmit(&huart1, (uint8_t*)&file_size, 4, HAL_MAX_DELAY);
 			do {
 				f_read(&fil, file_buffer, sizeof(file_buffer), &bytesRead);
-				if (bytesRead > 0) {
+				if (bytesRead > 0) {	
 					HAL_UART_Transmit(&huart1, file_buffer, bytesRead, HAL_MAX_DELAY);
 				}
 			} while (bytesRead == sizeof(file_buffer));
