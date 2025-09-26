@@ -1,4 +1,4 @@
-build/uart_al.o: Libs/uart_al/uart_al.c Libs/uart_al/uart_al.h \
+build/uart_al.o: ../Libs/uart_al/uart_al.c ../Libs/uart_al/uart_al.h \
  Core/Inc/main.h Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  Core/Inc/stm32f1xx_hal_conf.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -24,7 +24,7 @@ build/uart_al.o: Libs/uart_al/uart_al.c Libs/uart_al/uart_al.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-Libs/uart_al/uart_al.h:
+../Libs/uart_al/uart_al.h:
 Core/Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Core/Inc/stm32f1xx_hal_conf.h:

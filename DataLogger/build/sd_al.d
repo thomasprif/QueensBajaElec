@@ -1,5 +1,5 @@
-build/sd_al.o: Libs/sd_al/sd_al.c Libs/sd_al/sd_al.h Core/Inc/main.h \
- Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+build/sd_al.o: ../Libs/sd_al/sd_al.c ../Libs/sd_al/sd_al.h \
+ Core/Inc/main.h Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  Core/Inc/stm32f1xx_hal_conf.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -29,8 +29,8 @@ build/sd_al.o: Libs/sd_al/sd_al.c Libs/sd_al/sd_al.h Core/Inc/main.h \
  Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  Middlewares/Third_Party/FatFs/src/diskio.h \
  Middlewares/Third_Party/FatFs/src/ff.h FATFS/Target/user_diskio.h \
- Libs/debug/debug.h
-Libs/sd_al/sd_al.h:
+ ../Libs/debug/debug.h
+../Libs/sd_al/sd_al.h:
 Core/Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Core/Inc/stm32f1xx_hal_conf.h:
@@ -67,4 +67,4 @@ Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
 Middlewares/Third_Party/FatFs/src/diskio.h:
 Middlewares/Third_Party/FatFs/src/ff.h:
 FATFS/Target/user_diskio.h:
-Libs/debug/debug.h:
+../Libs/debug/debug.h:

@@ -46,22 +46,28 @@ void mount_card(){
 }
 
 void SD_get_filename (char* filename) {
-	for(int i=0; i<9999; i++){
-		sprintf(buffer, FILENAME_BASE, i);
-		fresult = f_stat(buffer, &fno);
-		switch (fresult){
-		case FR_OK:
-			break;
-		
-		case FR_NO_FILE:
-		case FR_NO_PATH:
-			strcpy(filename, buffer);
-			return;
-            break;
 
-		default:
-			break;
+	DIR dir;
+	FILINFO fno;
+	FRESULT res;
+
+	f_opendir(&dir, "data");
+
+	uint16_t max_file_number = 0;
+	uint16_t file_number = 0;
+
+	for(;;){
+		res = f_readdir(&dir, &fno);
+
+		if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
+		if (fno.fname[0] == '.') continue;	
+
+		file_number = (fno.fname[5]-'0') * 100 + (fno.fname[6]-'0') * 10 + (fno.fname[7]-'0');
+
+		if (file_number > max_file_number){
+			max_file_number = file_number;
 		}
-		clear_buffer();
 	}
+
+	sprintf(filename, FILENAME_BASE, max_file_number+1);
 }

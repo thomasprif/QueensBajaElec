@@ -16,11 +16,10 @@ typedef struct CAN_Connection {
 extern int CAN_ISR_FLAG;
 extern CAN_ConnectionTypeDef* Lib_CAN_Connection_ptr;
 
-void CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id);
+HAL_StatusTypeDef CAN_Start(CAN_ConnectionTypeDef* CAN_Connection, uint16_t id);
 void CAN_Send(CAN_ConnectionTypeDef* CAN_Connection, int length);
-void CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* ids);
+HAL_StatusTypeDef CAN_Add_Filter_Discrete(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* ids);
 void CAN_Pack_TX_2Byte(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* data);
 void CAN_Unpack_RX_2Byte(CAN_ConnectionTypeDef* CAN_Connection, int length, uint16_t* data);
 
 #endif
-
