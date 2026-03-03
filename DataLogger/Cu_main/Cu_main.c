@@ -8,6 +8,7 @@
 #include <string.h>
 
 #define BUFFER_SIZE 128
+//TEST
 
 CAN_ConnectionTypeDef CAN;
 extern UART_HandleTypeDef huart1;
