@@ -1,5 +1,5 @@
-build/debug.o: Libs/debug/debug.c Libs/debug/debug.h Core/Inc/main.h \
- Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+build/debug.o: ../Libs/debug/debug.c ../Libs/debug/debug.h \
+ Core/Inc/main.h Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  Core/Inc/stm32f1xx_hal_conf.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -24,7 +24,7 @@ build/debug.o: Libs/debug/debug.c Libs/debug/debug.h Core/Inc/main.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-Libs/debug/debug.h:
+../Libs/debug/debug.h:
 Core/Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Core/Inc/stm32f1xx_hal_conf.h:

@@ -22,6 +22,7 @@ void clear_buffer () {
 char filename[128];
 int SD_REQUEST_DATA_ISR_FLAG = 0;
 
+//HELLO
 void Cu_main(){
     Debug_print("BA,SM,Welcome,JA\r\n");
     HAL_Delay(500);
@@ -29,8 +30,8 @@ void Cu_main(){
 	mount_card();
 	Debug_print("BA,SM,SD Card Mounted,JA\r\n");
 
-	uint16_t ids[] = {0x59D};
-    Debug_HAL_function_assert(CAN_Add_Filter_Discrete(&CAN, 1, ids));
+	uint16_t ids[] = {0x59D, 0x5A0};
+    Debug_HAL_function_assert(CAN_Add_Filter_Discrete(&CAN, 2, ids));
 	Debug_print("BA,SM,CAN Filters Configured,JA\r\n");
 
     Debug_HAL_function_assert(CAN_Start(&CAN, 0x40));
@@ -50,6 +51,7 @@ void Cu_main(){
 	}
 
 	SD_get_filename(filename);
+	//sprintf(filename, "test.txt");
 
 	HAL_TIM_Base_Start_IT(&htim1);
 
@@ -61,34 +63,50 @@ void Cu_main(){
 
     while(1){
         if(CAN_ISR_FLAG){
-			RxFrame.timestamp = HAL_GetTick();
-			RxFrame.id = CAN.RxHeader.StdId;
-			memcpy(RxFrame.data, CAN.RxData, 8);
-			sprintf(buffer, "%lu,0x%03X,%d,%d,%d,%d\n", RxFrame.timestamp, RxFrame.id, 
-					RxFrame.data[0]*256 + RxFrame.data[1], RxFrame.data[2]*256 + RxFrame.data[3],
-					RxFrame.data[4]*256 + RxFrame.data[5], RxFrame.data[6]*256 + RxFrame.data[7]);
-			f_puts(buffer, &fil);
-			clear_buffer();
+
+            RxFrame.timestamp = HAL_GetTick();
+            RxFrame.id = CAN.RxHeader.StdId;
+            memcpy(RxFrame.data, CAN.RxData, 8);
+            if(RxFrame.id==0x5A0){  
+                       
+				sprintf(buffer, "%lu,0x%03X,%02d:%02d:%02d.%03d,%d.%02d,%c\n", RxFrame.timestamp, RxFrame.id,
+						(RxFrame.data[0]*256 + RxFrame.data[1])/100, (RxFrame.data[0]*256 + RxFrame.data[1])%100,
+						(RxFrame.data[2]*256 + RxFrame.data[3])/100,(RxFrame.data[2]*256 + RxFrame.data[3])%1000,
+						(RxFrame.data[4]*256 + RxFrame.data[5])/100,(RxFrame.data[4]*256 + RxFrame.data[5])%100,
+						RxFrame.data[6]*256 + RxFrame.data[7]);
+
+				Debug_print(buffer);
+            	Debug_print("\r\n");
+			
+            }else{
+                sprintf(buffer, "%lu,0x%03X,%d,%d,%d,%d\n", RxFrame.timestamp, RxFrame.id,
+                    RxFrame.data[0]*256 + RxFrame.data[1], RxFrame.data[2]*256 + RxFrame.data[3],
+                    RxFrame.data[4]*256 + RxFrame.data[5], RxFrame.data[6]*256 + RxFrame.data[7]);
+            }
+
+            f_puts(buffer, &fil);
+            clear_buffer();
             CAN_ISR_FLAG = 0;
         }
 
+
 		if(SD_SAVE_ISR_FLAG){
 			f_sync(&fil);
-			Debug_print("BA,SM,Data Saved,JA\r\n");
 			SD_SAVE_ISR_FLAG = 0;
 		}
 
 		if(SD_REQUEST_DATA_ISR_FLAG){
-			uint8_t file_buffer[1024];
+			uint8_t file_buffer[8192];
 			UINT bytesRead;
 			f_close(&fil);
 			f_open(&fil, filename, FA_READ);
-			uint32_t file_size = f_size(&fil);
-			HAL_UART_Transmit(&huart1, (uint8_t *)"START\n", 6, HAL_MAX_DELAY);
-			HAL_UART_Transmit(&huart1, (uint8_t*)&file_size, 4, HAL_MAX_DELAY);
+			DWORD file_size = f_size(&fil);
+
+			HAL_UART_Transmit(&huart1, (uint8_t*)&file_size, sizeof(DWORD), HAL_MAX_DELAY);
+			HAL_UART_Transmit(&huart1, (uint8_t *)"\nSTART\n", 7, HAL_MAX_DELAY);
 			do {
 				f_read(&fil, file_buffer, sizeof(file_buffer), &bytesRead);
-				if (bytesRead > 0) {
+				if (bytesRead > 0) {	
 					HAL_UART_Transmit(&huart1, file_buffer, bytesRead, HAL_MAX_DELAY);
 				}
 			} while (bytesRead == sizeof(file_buffer));
@@ -104,8 +122,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if (strncmp((char*)rx_data, "BA,RE,JA\r\n", 10) == 0) {
 		Debug_print("BA,SM,Resetting System,JA\r\n");
 		NVIC_SystemReset();
-	} else if (strncmp((char*)rx_data, "BA,RD,JA\r\n", 10) == 0) {
-		Debug_print("BA,SM,Sending Data,JA\r\n");
+	//} else if (strncmp((char*)rx_data, "BA,RD,JA\r\n", 10) == 0) {
+		//Debug_print("BA,SM,Sending Data,JA\r\n");
+		//SD_REQUEST_DATA_ISR_FLAG = 1;
+	} else if (strncmp((char*)rx_data, "BA,RC,JA\r\n", 10) == 0) {
+		Debug_print(filename);
+	} else if (strncmp((char*)rx_data, "BA,RD," , 6) == 0){
+		uint16_t data_file_number = ((rx_data[6] -'0') * 100) + ((rx_data[7]-'0') * 10) + (rx_data[8] -'0');
+		sprintf(filename, FILENAME_BASE, data_file_number);
+		HAL_TIM_Base_Stop_IT(&htim1);
+		SD_SAVE_ISR_FLAG = 0;
 		SD_REQUEST_DATA_ISR_FLAG = 1;
 	}
 	HAL_UART_Receive_IT(huart, rx_data, 10);  // Re-enable reception

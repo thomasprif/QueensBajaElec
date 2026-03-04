@@ -1,4 +1,4 @@
-build/rpm.o: Libs/rpm/rpm.c Libs/rpm/rpm.h Inc/main.h \
+build/rpm.o: ../Libs/rpm/rpm.c ../Libs/rpm/rpm.h Inc/main.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  Inc/stm32f1xx_hal_conf.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -22,8 +22,8 @@ build/rpm.o: Libs/rpm/rpm.c Libs/rpm/rpm.h Inc/main.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- Libs/can_al/can_al.h
-Libs/rpm/rpm.h:
+ ../Libs/can_al/can_al.h
+../Libs/rpm/rpm.h:
 Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Inc/stm32f1xx_hal_conf.h:
@@ -50,4 +50,4 @@ Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
-Libs/can_al/can_al.h:
+../Libs/can_al/can_al.h:

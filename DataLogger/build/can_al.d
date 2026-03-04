@@ -1,5 +1,5 @@
-build/can_al.o: Libs/can_al/can_al.c Libs/can_al/can_al.h Core/Inc/main.h \
- Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+build/can_al.o: ../Libs/can_al/can_al.c ../Libs/can_al/can_al.h \
+ Core/Inc/main.h Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  Core/Inc/stm32f1xx_hal_conf.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -24,7 +24,7 @@ build/can_al.o: Libs/can_al/can_al.c Libs/can_al/can_al.h Core/Inc/main.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-Libs/can_al/can_al.h:
+../Libs/can_al/can_al.h:
 Core/Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Core/Inc/stm32f1xx_hal_conf.h:

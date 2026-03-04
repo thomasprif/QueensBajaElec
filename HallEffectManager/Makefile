@@ -55,8 +55,8 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
 Src/system_stm32f1xx.c \
 Cu_main/Cu_main.c \
-Libs/can_al/can_al.c \
-Libs/rpm/rpm.c \
+../Libs/can_al/can_al.c \
+../Libs/rpm/rpm.c \
 Src/tim.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c
@@ -125,8 +125,8 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32F1xx/Include \
 -IDrivers/CMSIS/Include \
 -ICu_main \
--ILibs/can_al \
--ILibs/rpm
+-I../Libs/can_al \
+-I../Libs/rpm
 
 
 
