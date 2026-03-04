@@ -22,6 +22,7 @@ void clear_buffer () {
 char filename[128];
 int SD_REQUEST_DATA_ISR_FLAG = 0;
 
+//HELLO
 void Cu_main(){
     Debug_print("BA,SM,Welcome,JA\r\n");
     HAL_Delay(500);
