@@ -4,7 +4,19 @@
         "stm32f1xx_hal.h": "c",
         "can_al.h": "c"
     },
-    "C_Cpp.default.compilerPath": "/opt/arm-gnu-toolchain-14.3.rel1-x86_64-arm-none-eabi/bin/arm-none-eabi-gcc",
 
-    "makefile.defaultConfiguration": "DataLogger"
+    "makefile.makefilePath": "HallEffectManager",
+
+    "makefile.configurations" : [
+        {
+            "name": "HallEffectManager",
+            "makeDirectory": "HallEffectManager",
+            "makefilePath": "HallEffectManager/Makefile"
+        },
+        {
+            "name": "DataLogger",
+            "makeDirectory": "DataLogger",
+            "makefilePath": "DataLogger/Makefile"
+        }
+    ]
 }
