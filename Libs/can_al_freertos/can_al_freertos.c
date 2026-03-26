@@ -39,7 +39,7 @@ int CAN_al_init(CAN_al_t *can, CAN_al_config *config, uint16_t *filter_ids, int 
 HAL_StatusTypeDef CAN_Add_Filter_Discrete(CAN_HandleTypeDef *hcan, int length, uint16_t *ids) {
     int ids_left = length;
 
-    CAN_FilterTypeDef CAN_Filter_Config;
+    CAN_FilterTypeDef CAN_Filter_Config = {0};
 
     CAN_Filter_Config.FilterActivation = CAN_FILTER_ENABLE;
     CAN_Filter_Config.FilterFIFOAssignment = CAN_FILTER_FIFO0;
@@ -60,10 +60,8 @@ HAL_StatusTypeDef CAN_Add_Filter_Discrete(CAN_HandleTypeDef *hcan, int length, u
 
         if (ids_left-- > 0)
             CAN_Filter_Config.FilterMaskIdLow = (ids[4 * i + 3] << 5);
-
-        return HAL_CAN_ConfigFilter(hcan, &CAN_Filter_Config);
     }
-    return 1;
+    return HAL_CAN_ConfigFilter(hcan, &CAN_Filter_Config);;
 }
 
 int CAN_tx_enqueue(CAN_al_t *can, CAN_msg_t *msg) {
@@ -87,7 +85,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     msg.len = RxHeader.DLC;
     memcpy(msg.data, data, msg.len);
 
-    xQueueSendFromISR(can_ptr->rx_queue, &msg, NULL);
+    // xQueueSendFromISR(can_ptr->rx_queue, &msg, NULL);
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xQueueSendFromISR(can_ptr->rx_queue, &msg, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 void CAN_tx_task(void *pvParameters) {
