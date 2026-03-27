@@ -17,6 +17,11 @@
             "name": "DataLogger",
             "makeDirectory": "DataLogger",
             "makefilePath": "DataLogger/Makefile"
+        },
+        {
+            "name": "DigitalDash",
+            "makeDirectory": "DigitalDash",
+            "makefilePath": "DigitalDash/Makefile"
         }
     ]
 }
